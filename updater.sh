@@ -6,7 +6,7 @@ git fetch origin
 git reset --hard origin/don.nzws.me
 
 echo -e "\e[33m Update deps: \e[m"
-bundle install -j$(getconf _NPROCESSORS_ONLN) --deployment --without development test
+bundle install
 yarn install
 
 echo -e "\e[33m Compile static files: \e[m"
