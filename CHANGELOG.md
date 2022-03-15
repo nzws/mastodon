@@ -198,6 +198,7 @@ All notable changes to this project will be documented in this file.
 - Fix spurious errors when receiving an Add activity for a private post ([ClearlyClaire](https://github.com/mastodon/mastodon/pull/17425))
 
 ### Security
+
 - Fix error-prone SQL queries ([ClearlyClaire](https://github.com/mastodon/mastodon/pull/15828))
 - Fix not compacting incoming signed JSON-LD activities ([puckipedia](https://github.com/mastodon/mastodon/pull/17426), [ClearlyClaire](https://github.com/mastodon/mastodon/pull/17428)) (CVE-2022-24307)
 - Fix insufficient sanitization of report comments ([ClearlyClaire](https://github.com/mastodon/mastodon/pull/17430))
@@ -206,10 +207,12 @@ All notable changes to this project will be documented in this file.
 
 ## [3.4.5] - 2022-01-31
 ### Added
+
 - Add more advanced migration tests ([ClearlyClaire](https://github.com/mastodon/mastodon/pull/17393))
 - Add github workflow to build Docker images ([unasuke](https://github.com/mastodon/mastodon/pull/16973), [Gargron](https://github.com/mastodon/mastodon/pull/16980), [Gargron](https://github.com/mastodon/mastodon/pull/17000))
 
 ### Fixed
+
 - Fix some old migrations failing when skipping releases ([ClearlyClaire](https://github.com/mastodon/mastodon/pull/17394))
 - Fix migrations script failing in certain edge cases ([ClearlyClaire](https://github.com/mastodon/mastodon/pull/17398))
 - Fix Docker build ([tribela](https://github.com/mastodon/mastodon/pull/17188))

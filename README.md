@@ -1,4 +1,5 @@
-# ![Mastodon](https://i.imgur.com/NhZc40l.png)
+![Mastodon](https://i.imgur.com/NhZc40l.png)
+========
 
 [![GitHub release](https://img.shields.io/github/release/mastodon/mastodon.svg)][releases]
 [![Build Status](https://img.shields.io/circleci/project/github/mastodon/mastodon.svg)][circleci]
