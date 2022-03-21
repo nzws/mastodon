@@ -6891,8 +6891,10 @@ noscript {
     .avatar {
       display: block;
       flex: 0 0 auto;
-      width: 94px;
-      margin-left: -2px;
+      //width: 94px;
+      //margin-left: -2px;
+      width: 100px;
+      margin-top: -10px;
 
       .account__avatar {
         // background: darken($ui-base-color, 8%);

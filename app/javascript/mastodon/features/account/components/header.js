@@ -273,7 +273,7 @@ class Header extends ImmutablePureComponent {
         <div className='account__header__bar'>
           <div className='account__header__tabs'>
             <a className='avatar' href={account.get('url')} rel='noopener noreferrer' target='_blank'>
-              <Avatar account={account} size={90} />
+              <Avatar account={account} size={100} />
             </a>
 
             <div className='spacer' />
