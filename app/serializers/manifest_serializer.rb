@@ -27,21 +27,49 @@ class ManifestSerializer < ActiveModel::Serializer
         src: '/android-chrome-128x128.png',
         sizes: '128x128',
         type: 'image/png',
+        purpose: 'any'
       },
       {
         src: '/android-chrome-192x192.png',
         sizes: '192x192',
         type: 'image/png',
+        purpose: 'any'
       },
       {
         src: '/android-chrome-256x256.png',
         sizes: '256x256',
         type: 'image/png',
+        purpose: 'any'
       },
       {
         src: '/android-chrome-512x512.png',
         sizes: '512x512',
         type: 'image/png',
+        purpose: 'any'
+      },
+      {
+        src: '/maskable_icon_x128.png',
+        sizes: '128x128',
+        type: 'image/png',
+        purpose: 'maskable'
+      },
+      {
+        src: '/maskable_icon_x192.png',
+        sizes: '192x192',
+        type: 'image/png',
+        purpose: 'maskable'
+      },
+      {
+        src: '/maskable_icon_x384.png',
+        sizes: '384x384',
+        type: 'image/png',
+        purpose: 'maskable'
+      },
+      {
+        src: '/maskable_icon_x512.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'maskable'
       },
     ]
   end
