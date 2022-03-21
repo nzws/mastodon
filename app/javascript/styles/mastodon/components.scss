@@ -6895,8 +6895,9 @@ noscript {
       margin-left: -2px;
 
       .account__avatar {
-        background: darken($ui-base-color, 8%);
-        border: 2px solid lighten($ui-base-color, 4%);
+        // background: darken($ui-base-color, 8%);
+        // border: 2px solid lighten($ui-base-color, 4%);
+        border: 2px solid transparent;
       }
     }
   }
