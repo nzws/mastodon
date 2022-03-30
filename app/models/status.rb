@@ -269,7 +269,7 @@ class Status < ApplicationRecord
 
   def trendable?
     if attributes['trendable'].nil?
-      account.trendable?
+      boolean_with_default('trendable', Setting.trendable_by_default)
     else
       attributes['trendable']
     end
