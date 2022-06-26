@@ -825,7 +825,7 @@
   display: inline-flex;
   align-items: center;
   width: unset !important;
-  padding: 0.3em 0.5em !important;
+  padding: 0.3em 0.3em !important;
   height: unset !important;
   flex: 0 1 auto !important;
   min-width: 0;
@@ -1979,4 +1979,10 @@
 .layout-multiple-columns .column {
 	flex-grow: 1;
 	max-width: 500px;
+}
+
+.status__action-bar-button {
+  &.icon-button--with-counter {
+    margin-right: 0;
+  }
 }
