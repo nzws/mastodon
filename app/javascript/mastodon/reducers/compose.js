@@ -14,6 +14,7 @@ import {
   COMPOSE_UPLOAD_FAIL,
   COMPOSE_UPLOAD_UNDO,
   COMPOSE_UPLOAD_PROGRESS,
+  COMPOSE_UPLOAD_PROCESSING,
   THUMBNAIL_UPLOAD_REQUEST,
   THUMBNAIL_UPLOAD_SUCCESS,
   THUMBNAIL_UPLOAD_FAIL,
@@ -28,6 +29,7 @@ import {
   COMPOSE_SPOILERNESS_CHANGE,
   COMPOSE_SPOILER_TEXT_CHANGE,
   COMPOSE_VISIBILITY_CHANGE,
+  COMPOSE_LANGUAGE_CHANGE,
   COMPOSE_COMPOSING_CHANGE,
   COMPOSE_EMOJI_INSERT,
   COMPOSE_UPLOAD_CHANGE_REQUEST,
@@ -79,6 +81,7 @@ const initialState = ImmutableMap({
   suggestions: ImmutableList(),
   default_privacy: 'public',
   default_sensitive: false,
+  default_language: 'en',
   resetFileKey: Math.floor((Math.random() * 0x10000)),
   idempotencyKey: null,
   tagHistory: ImmutableList(),
@@ -117,7 +120,8 @@ function clearAll(state) {
     map.set('is_changing_upload', false);
     map.set('in_reply_to', null);
     map.set('privacy', state.get('default_privacy'));
-    map.set('sensitive', false);
+    map.set('sensitive', state.get('default_sensitive'));
+    map.set('language', state.get('default_language'));
     map.update('media_attachments', list => list.clear());
     map.set('poll', null);
     map.set('idempotencyKey', uuid());
@@ -133,6 +137,7 @@ function appendMedia(state, media, file) {
     }
     map.update('media_attachments', list => list.push(media));
     map.set('is_uploading', false);
+    map.set('is_processing', false);
     map.set('resetFileKey', Math.floor((Math.random() * 0x10000)));
     map.set('idempotencyKey', uuid());
     map.update('pending_media_attachments', n => n - 1);
@@ -325,6 +330,10 @@ export default function compose(state = initialState, action) {
       map.set('preselectDate', new Date());
       map.set('idempotencyKey', uuid());
 
+      if (action.status.get('language')) {
+        map.set('language', action.status.get('language'));
+      }
+
       if (action.status.get('spoiler_text').length > 0) {
         map.set('spoiler', true);
         map.set('spoiler_text', action.status.get('spoiler_text'));
@@ -347,10 +356,12 @@ export default function compose(state = initialState, action) {
     return state.set('is_changing_upload', false);
   case COMPOSE_UPLOAD_REQUEST:
     return state.set('is_uploading', true).update('pending_media_attachments', n => n + 1);
+  case COMPOSE_UPLOAD_PROCESSING:
+    return state.set('is_processing', true);
   case COMPOSE_UPLOAD_SUCCESS:
     return appendMedia(state, fromJS(action.media), action.file);
   case COMPOSE_UPLOAD_FAIL:
-    return state.set('is_uploading', false).update('pending_media_attachments', n => n - 1);
+    return state.set('is_uploading', false).set('is_processing', false).update('pending_media_attachments', n => n - 1);
   case COMPOSE_UPLOAD_UNDO:
     return removeMedia(state, action.media_id);
   case COMPOSE_UPLOAD_PROGRESS:
@@ -440,6 +451,7 @@ export default function compose(state = initialState, action) {
       map.set('caretPosition', null);
       map.set('idempotencyKey', uuid());
       map.set('sensitive', action.status.get('sensitive'));
+      map.set('language', action.status.get('language'));
 
       if (action.status.get('spoiler_text').length > 0) {
         map.set('spoiler', true);
@@ -468,6 +480,7 @@ export default function compose(state = initialState, action) {
       map.set('caretPosition', null);
       map.set('idempotencyKey', uuid());
       map.set('sensitive', action.status.get('sensitive'));
+      map.set('language', action.status.get('language'));
 
       if (action.spoiler_text.length > 0) {
         map.set('spoiler', true);
@@ -497,6 +510,8 @@ export default function compose(state = initialState, action) {
     return state.updateIn(['poll', 'options'], options => options.delete(action.index));
   case COMPOSE_POLL_SETTINGS_CHANGE:
     return state.update('poll', poll => poll.set('expires_in', action.expiresIn).set('multiple', action.isMultiple));
+  case COMPOSE_LANGUAGE_CHANGE:
+    return state.set('language', action.language);
   default:
     return state;
   }

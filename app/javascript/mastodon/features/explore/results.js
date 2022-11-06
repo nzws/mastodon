@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { expandSearch } from 'mastodon/actions/search';
 import Account from 'mastodon/containers/account_container';
@@ -10,10 +10,16 @@ import { ImmutableHashtag as Hashtag } from 'mastodon/components/hashtag';
 import { List as ImmutableList } from 'immutable';
 import LoadMore from 'mastodon/components/load_more';
 import LoadingIndicator from 'mastodon/components/loading_indicator';
+import { Helmet } from 'react-helmet';
+
+const messages = defineMessages({
+  title: { id: 'search_results.title', defaultMessage: 'Search for {q}' },
+});
 
 const mapStateToProps = state => ({
   isLoading: state.getIn(['search', 'isLoading']),
   results: state.getIn(['search', 'results']),
+  q: state.getIn(['search', 'searchTerm']),
 });
 
 const appendLoadMore = (id, list, onLoadMore) => {
@@ -37,6 +43,7 @@ const renderStatuses = (results, onLoadMore) => appendLoadMore('statuses', resul
 )), onLoadMore);
 
 export default @connect(mapStateToProps)
+@injectIntl
 class Results extends React.PureComponent {
 
   static propTypes = {
@@ -44,6 +51,8 @@ class Results extends React.PureComponent {
     isLoading: PropTypes.bool,
     multiColumn: PropTypes.bool,
     dispatch: PropTypes.func.isRequired,
+    q: PropTypes.string,
+    intl: PropTypes.object,
   };
 
   state = {
@@ -64,7 +73,7 @@ class Results extends React.PureComponent {
   }
 
   render () {
-    const { isLoading, results } = this.props;
+    const { intl, isLoading, q, results } = this.props;
     const { type } = this.state;
 
     let filteredResults = ImmutableList();
@@ -100,12 +109,16 @@ class Results extends React.PureComponent {
           <button onClick={this.handleSelectAll} className={type === 'all' && 'active'}><FormattedMessage id='search_results.all' defaultMessage='All' /></button>
           <button onClick={this.handleSelectAccounts} className={type === 'accounts' && 'active'}><FormattedMessage id='search_results.accounts' defaultMessage='People' /></button>
           <button onClick={this.handleSelectHashtags} className={type === 'hashtags' && 'active'}><FormattedMessage id='search_results.hashtags' defaultMessage='Hashtags' /></button>
-          <button onClick={this.handleSelectStatuses} className={type === 'statuses' && 'active'}><FormattedMessage id='search_results.statuses' defaultMessage='Toots' /></button>
+          <button onClick={this.handleSelectStatuses} className={type === 'statuses' && 'active'}><FormattedMessage id='search_results.statuses' defaultMessage='Posts' /></button>
         </div>
 
         <div className='explore__search-results'>
           {isLoading ? <LoadingIndicator /> : filteredResults}
         </div>
+
+        <Helmet>
+          <title>{intl.formatMessage(messages.title, { q })}</title>
+        </Helmet>
       </React.Fragment>
     );
   }

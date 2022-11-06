@@ -97,7 +97,7 @@ module LanguagesHelper
     lg: ['Ganda', 'Luganda'].freeze,
     li: ['Limburgish', 'Limburgs'].freeze,
     ln: ['Lingala', 'Lingála'].freeze,
-    lo: ['Lao', 'ພາສາ'].freeze,
+    lo: ['Lao', 'ລາວ'].freeze,
     lt: ['Lithuanian', 'lietuvių kalba'].freeze,
     lu: ['Luba-Katanga', 'Tshiluba'].freeze,
     lv: ['Latvian', 'latviešu valoda'].freeze,
@@ -253,5 +253,9 @@ module LanguagesHelper
 
   def valid_locale?(locale)
     locale.present? && SUPPORTED_LOCALES.key?(locale.to_sym)
+  end
+
+  def available_locale_or_nil(locale_name)
+    locale_name.to_sym if locale_name.present? && I18n.available_locales.include?(locale_name.to_sym)
   end
 end

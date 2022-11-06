@@ -10,10 +10,10 @@ ast:
         irreversible: Los barritos peñeraos van desapaecer de mou irreversible, magar que se desanicie la peñera dempués
         password: Usa 8 caráuteres polo menos
         setting_hide_network: La xente que sigas y teas siguiendo nun va amosase nel perfil
-        setting_show_application: L'aplicación qu'uses pa barritar va amosase na vista detallada d'ellos
+        setting_show_application: L'aplicación qu'uses pa espublizar apaez na vista detallada de los tos artículos
         username: El nome d'usuariu va ser únicu en %{domain}
       featured_tag:
-        name: 'Quiciabes quieras usar unu d''estos:'
+        name: 'Equí hai dalgunes de les etiquetes qu''usesti apocayá:'
       form_challenge:
         current_password: Tas entrando nuna área segura
       imports:
@@ -74,7 +74,7 @@ ast:
         setting_use_pending_items: Mou lentu
         severity: Severidá
         sign_in_token_attempt: Códigu de seguranza
-        type: Triba de la importación
+        type: Tipu de la importación
         username: Nome d'usuariu
         username_or_email: Nome d'usuariu o corréu
         whole_word: La pallabra entera
@@ -96,6 +96,10 @@ ast:
         reblog: Daquién compartió dalgún estáu de to
       tag:
         name: Etiqueta
+      user_role:
+        name: Nome
+        permissions_as_keys: Permisos
+        position: Prioridá
     'no': Non
     recommended: Aconséyase
     required:

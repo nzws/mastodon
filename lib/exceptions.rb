@@ -10,6 +10,7 @@ module Mastodon
   class StreamValidationError < ValidationError; end
   class RaceConditionError < Error; end
   class RateLimitExceededError < Error; end
+  class SyntaxError < Error; end
 
   class UnexpectedResponseError < Error
     attr_reader :response
@@ -22,6 +23,15 @@ module Mastodon
       else
         super
       end
+    end
+  end
+
+  class PrivateNetworkAddressError < HostValidationError
+    attr_reader :host
+
+    def initialize(host)
+      @host = host
+      super()
     end
   end
 end

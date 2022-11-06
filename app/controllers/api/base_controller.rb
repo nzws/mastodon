@@ -11,6 +11,7 @@ class Api::BaseController < ApplicationController
   skip_before_action :require_functional!, unless: :whitelist_mode?
 
   before_action :require_authenticated_user!, if: :disallow_unauthenticated_api_access?
+  before_action :require_not_suspended!
   before_action :set_cache_headers
 
   protect_from_forgery with: :null_session
@@ -21,6 +22,10 @@ class Api::BaseController < ApplicationController
 
   rescue_from ActiveRecord::RecordNotUnique do
     render json: { error: 'Duplicate record' }, status: 422
+  end
+
+  rescue_from Date::Error do
+    render json: { error: 'Invalid date supplied' }, status: 422
   end
 
   rescue_from ActiveRecord::RecordNotFound do
@@ -97,6 +102,10 @@ class Api::BaseController < ApplicationController
     render json: { error: 'This method requires an authenticated user' }, status: 401 unless current_user
   end
 
+  def require_not_suspended!
+    render json: { error: 'Your login is currently disabled' }, status: 403 if current_user&.account&.suspended?
+  end
+
   def require_user!
     if !current_user
       render json: { error: 'This method requires an authenticated user' }, status: 422
@@ -124,6 +133,12 @@ class Api::BaseController < ApplicationController
   end
 
   def disallow_unauthenticated_api_access?
-    authorized_fetch_mode?
+    ENV['DISALLOW_UNAUTHENTICATED_API_ACCESS'] == 'true' || Rails.configuration.x.whitelist_mode
+  end
+
+  private
+
+  def respond_with_error(code)
+    render json: { error: Rack::Utils::HTTP_STATUS_CODES[code] }, status: code
   end
 end

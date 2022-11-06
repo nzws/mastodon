@@ -75,6 +75,7 @@ class Status < ApplicationRecord
   has_one :notification, as: :activity, dependent: :destroy
   has_one :status_stat, inverse_of: :status
   has_one :poll, inverse_of: :status, dependent: :destroy
+  has_one :trend, class_name: 'StatusTrend', inverse_of: :status
 
   validates :uri, uniqueness: true, presence: true, unless: :local?
   validates :text, presence: true, unless: -> { with_media? || reblog? }
@@ -95,7 +96,6 @@ class Status < ApplicationRecord
   scope :without_reblogs, -> { where('statuses.reblog_of_id IS NULL') }
   scope :with_public_visibility, -> { where(visibility: :public) }
   scope :tagged_with, ->(tag_ids) { joins(:statuses_tags).where(statuses_tags: { tag_id: tag_ids }) }
-  scope :in_chosen_languages, ->(account) { where(language: nil).or where(language: account.chosen_languages) }
   scope :excluding_silenced_accounts, -> { left_outer_joins(:account).where(accounts: { silenced_at: nil }) }
   scope :including_silenced_accounts, -> { left_outer_joins(:account).where.not(accounts: { silenced_at: nil }) }
   scope :not_excluded_by_account, ->(account) { where.not(account_id: account.excluded_from_timeline_account_ids) }
@@ -145,14 +145,33 @@ class Status < ApplicationRecord
       ids += favourites.where(account: Account.local).pluck(:account_id)
       ids += reblogs.where(account: Account.local).pluck(:account_id)
       ids += bookmarks.where(account: Account.local).pluck(:account_id)
+      ids += poll.votes.where(account: Account.local).pluck(:account_id) if poll.present?
     else
       ids += preloaded.mentions[id] || []
       ids += preloaded.favourites[id] || []
       ids += preloaded.reblogs[id] || []
       ids += preloaded.bookmarks[id] || []
+      ids += preloaded.votes[id] || []
     end
 
     ids.uniq
+  end
+
+  def searchable_text
+    [
+      spoiler_text,
+      FormattingHelper.extract_status_plain_text(self),
+      preloadable_poll ? preloadable_poll.options.join("\n\n") : nil,
+      ordered_media_attachments.map(&:description).join("\n\n"),
+    ].compact.join("\n\n")
+  end
+
+  def to_log_human_identifier
+    account.acct
+  end
+
+  def to_log_permalink
+    ActivityPub::TagManager.instance.uri_for(self)
   end
 
   def reply?
@@ -243,7 +262,7 @@ class Status < ApplicationRecord
       media_attachments
     else
       map = media_attachments.index_by(&:id)
-      ordered_media_attachment_ids.map { |media_attachment_id| map[media_attachment_id] }
+      ordered_media_attachment_ids.filter_map { |media_attachment_id| map[media_attachment_id] }
     end
   end
 
@@ -425,6 +444,12 @@ class Status < ApplicationRecord
     im
   end
 
+  def discard_with_reblogs
+    discard_time = Time.current
+    Status.unscoped.where(reblog_of_id: id, deleted_at: [nil, deleted_at]).in_batches.update_all(deleted_at: discard_time) unless reblog?
+    update_attribute(:deleted_at, discard_time)
+  end
+
   private
 
   def update_status_stat!(attrs)
@@ -447,7 +472,7 @@ class Status < ApplicationRecord
   end
 
   def set_poll_id
-    update_column(:poll_id, poll.id) unless poll.nil?
+    update_column(:poll_id, poll.id) if association(:poll).loaded? && poll.present?
   end
 
   def set_visibility

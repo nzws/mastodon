@@ -25,6 +25,8 @@ class Admin::AccountAction
   alias send_email_notification? send_email_notification
   alias include_statuses? include_statuses
 
+  validates :type, :target_account, :current_account, presence: true
+
   def initialize(attributes = {})
     @send_email_notification = true
     @include_statuses        = true
@@ -41,13 +43,15 @@ class Admin::AccountAction
   end
 
   def save!
+    raise ActiveRecord::RecordInvalid, self unless valid?
+
     ApplicationRecord.transaction do
       process_action!
       process_strike!
+      process_reports!
     end
 
     process_email!
-    process_reports!
     process_queue!
   end
 
@@ -92,6 +96,10 @@ class Admin::AccountAction
       text: text_for_warning,
       status_ids: status_ids
     )
+
+    # A log entry is only interesting if the warning contains
+    # custom text from someone. Otherwise it's just noise.
+    log_action(:create, @warning) if @warning.text.present? && type == 'none'
   end
 
   def process_reports!
@@ -102,9 +110,8 @@ class Admin::AccountAction
     # Otherwise, we will mark all unresolved reports about
     # the account as resolved.
 
-    reports.each { |report| authorize(report, :update?) }
-
     reports.each do |report|
+      authorize(report, :update?)
       log_action(:resolve, report)
       report.resolve!(current_account)
     end
@@ -160,8 +167,8 @@ class Admin::AccountAction
 
   def reports
     @reports ||= begin
-      if type == 'none' && with_report?
-        [report]
+      if type == 'none'
+        with_report? ? [report] : []
       else
         Report.where(target_account: target_account).unresolved
       end

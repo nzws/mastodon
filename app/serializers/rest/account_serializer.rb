@@ -13,6 +13,8 @@ class REST::AccountSerializer < ActiveModel::Serializer
   has_many :emojis, serializer: REST::CustomEmojiSerializer
 
   attribute :suspended, if: :suspended?
+  attribute :silenced, key: :limited, if: :silenced?
+  attribute :noindex, if: :local?
 
   class FieldSerializer < ActiveModel::Serializer
     include FormattingHelper
@@ -98,7 +100,15 @@ class REST::AccountSerializer < ActiveModel::Serializer
     object.suspended?
   end
 
-  delegate :suspended?, to: :object
+  def silenced
+    object.silenced?
+  end
+
+  def noindex
+    object.user_prefers_noindex?
+  end
+
+  delegate :suspended?, :silenced?, :local?, to: :object
 
   def moved_and_not_nested?
     object.moved? && object.moved_to_account.moved_to_account_id.nil?

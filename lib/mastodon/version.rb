@@ -5,11 +5,11 @@ module Mastodon
     module_function
 
     def major
-      3
+      4
     end
 
     def minor
-      5
+      0
     end
 
     def patch
@@ -17,7 +17,7 @@ module Mastodon
     end
 
     def flags
-      ''
+      'rc2'
     end
 
     def suffix
