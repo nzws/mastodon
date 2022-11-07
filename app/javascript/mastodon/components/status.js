@@ -377,12 +377,12 @@ class Status extends ImmutablePureComponent {
 
       prepend = (
         <div className='status__prepend'>
-          <span className='notification__relative_time'>
-            <RelativeTimestamp timestamp={status.get('created_at')} />
-          </span>
-
           <div className='status__prepend-icon-wrapper'><Icon id='retweet' className='status__prepend-icon' fixedWidth /></div>
           <FormattedMessage id='status.reblogged_by' defaultMessage='{name} boosted' values={{ name: <a onClick={this.handlePrependAccountClick} data-id={status.getIn(['account', 'id'])} href={status.getIn(['account', 'url'])} className='status__display-name muted'><bdi><strong dangerouslySetInnerHTML={display_name_html} /></bdi></a> }} />
+
+          <div className='status__prepend-relative_time'>
+            <RelativeTimestamp timestamp={status.get('created_at')} />
+          </div>
         </div>
       );
 
@@ -541,7 +541,7 @@ class Status extends ImmutablePureComponent {
 
             {media}
 
-            <StatusActionBar scrollKey={scrollKey} status={status} account={account} onFilter={matchedFilters ? this.handleFilterClick : null} withCounters {...other} />
+            <StatusActionBar scrollKey={scrollKey} status={status} account={account} onFilter={matchedFilters ? this.handleFilterClick : null} {...other} withCounters />
           </div>
         </div>
       </HotKeys>
