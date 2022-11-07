@@ -232,7 +232,7 @@
 }
 #mastodon .columns-area__panels__main,
 .public-layout .columns-area__panels__main {
-  margin: 0 10px;
+  // margin: 0 10px;
   padding-top: 30px !important;
   overflow: visible !important;
   transition: max-width 0.2s cubic-bezier(0, 0, 0, 1.1), margin 0.2s cubic-bezier(0, 0, 0, 1.1);
@@ -277,6 +277,7 @@
 #mastodon .activity-stream:not(.activity-stream),
 .public-layout .activity-stream:not(.activity-stream) {
   padding: 10px;
+  padding-right: 0;
 }
 #mastodon .scrollable:not(.scrollable--flex) > [tabindex]:first-child > .focusable,
 .public-layout .scrollable:not(.scrollable--flex) > [tabindex]:first-child > .focusable,
@@ -404,7 +405,7 @@
   border-radius: var(--radius-round);
   overflow: hidden;
   background-color: var(--border-color);
-  padding: 0 !important;
+  //padding: 0 !important;
 }
 #mastodon .account__header__fields dl dt,
 .public-layout .account__header__fields dl dt,
@@ -596,7 +597,7 @@
 .public-layout .status {
   overflow: visible !important;
   padding: 15px !important;
-  padding-inline-start: 78px !important;
+  // padding-inline-start: 78px !important;
 }
 #mastodon .status__prepend,
 .public-layout .status__prepend,
@@ -604,9 +605,13 @@
 .public-layout .notification__message {
   padding-top: 15px !important;
   padding-bottom: 0 !important;
-  margin-inline-start: 78px;
+  // margin-inline-start: 78px;
   margin-bottom: -10px !important;
   z-index: 2;
+
+  > span {
+    width: 100%;
+  }
 }
 #mastodon .account__avatar-overlay-base,
 .public-layout .account__avatar-overlay-base {
@@ -618,7 +623,7 @@
 #mastodon .account__avatar-overlay-overlay,
 .public-layout .account__avatar-overlay-overlay {
   border-radius: var(--radius-round);
-  bottom: -10%;
+  bottom: 0;
   right: -10%;
 }
 #mastodon .status__info,
@@ -1065,8 +1070,14 @@
 #mastodon .column-link .column-link__icon,
 .public-layout .column-link .column-link__icon,
 .column-header__icon {
+  // margin-inline-end: 1em !important;
+  margin-right: 0;
+}
+
+.column-header__icon {
   margin-inline-end: 1em !important;
 }
+
 #mastodon .column-link::before,
 .public-layout .column-link::before {
   content: "" !important;
@@ -1637,6 +1648,7 @@
   .public-layout .tabs-bar__wrapper #tabs-bar__portal .column-header > button {
     padding-inline-start: 15px;
     transform-origin: center !important;
+    padding: 15px !important;
   }
   #mastodon .tabs-bar__wrapper #tabs-bar__portal .column-header,
   .public-layout .tabs-bar__wrapper #tabs-bar__portal .column-header {
@@ -1660,8 +1672,9 @@
   }
   #mastodon .status__action-bar,
   .public-layout .status__action-bar {
-    margin-inline-start: -63px;
+    //margin-inline-start: -63px;
     margin-bottom: -10px;
+    gap: 0;
   }
   #mastodon .status__action-bar .icon-button,
   .public-layout .status__action-bar .icon-button {
@@ -1728,6 +1741,11 @@
     width: calc(100vw - 70px) !important;
     position: fixed;
     left: 15px;
+  }
+
+  #mastodon .columns-area__panels__pane__inner,
+  .public-layout .columns-area__panels__pane__inner {
+    margin-top: 0;
   }
 }
 .layout-multiple-columns #mastodon .columns-area {
@@ -1985,5 +2003,15 @@
 .status__action-bar-button {
   &.icon-button--with-counter {
     margin-right: 0;
+  }
+}
+
+.account__header__bio .account__header__fields {
+  background: none;
+
+  > dl {
+    display: flex;
+    gap: 12px;
+    padding: 2px 12px;
   }
 }
