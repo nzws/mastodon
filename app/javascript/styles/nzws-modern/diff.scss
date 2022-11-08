@@ -310,6 +310,7 @@
 .public-layout .account-timeline__header {
   margin: -10px;
   margin-bottom: 10px;
+  margin-right: 0;
   background-color: inherit;
   border-radius: var(--radius);
 }
@@ -352,6 +353,7 @@
   border: 0;
   border-radius: var(--radius) var(--radius) 0 0;
   margin-top: calc(0px - var(--radius)) !important;
+  background: lighten($ui-base-color, 4%);
 }
 #mastodon .account-timeline__header .account__header__tabs__name h1,
 .public-layout .account-timeline__header .account__header__tabs__name h1 {
@@ -377,7 +379,7 @@
 }
 #mastodon .account-timeline__header .account__header__bio > div,
 .public-layout .account-timeline__header .account__header__bio > div {
-  padding-inline: 10px !important;
+  // padding-inline: 10px !important;
 }
 #mastodon .account__header__fields,
 .public-layout .account__header__fields,
@@ -1056,6 +1058,10 @@
   padding-bottom: 20px;
   height: calc(100% - 30px);
   box-sizing: border-box;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 }
 #mastodon .column-link,
 .public-layout .column-link {
@@ -1522,6 +1528,7 @@
     width: 45px !important;
     height: 45px !important;
     background-size: 45px !important;
+    flex-shrink: 0;
   }
   #mastodon .status .status__avatar > div,
   .public-layout .status .status__avatar > div {
