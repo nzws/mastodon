@@ -1005,6 +1005,7 @@
   #mastodon .column-back-button--slim .column-back-button:not(.column-back-button),
   .public-layout .column-back-button--slim .column-back-button:not(.column-back-button) {
     padding-top: 0;
+    top: 0;
   }
   #mastodon .tabs-bar__wrapper:not(.column-back-button) .tabs-bar,
   .public-layout .tabs-bar__wrapper:not(.column-back-button) .tabs-bar,
@@ -1043,6 +1044,10 @@
   #mastodon .columns-area__panels__main .scrollable {
     border-radius: 0 !important;
   }
+
+  .columns-area__panels__pane__inner {
+    margin-top: 0 !important;
+  }
 }
 @media (min-width: 1191px) and (min-width: 1320px) {
   #mastodon .tabs-bar__wrapper,
@@ -1056,7 +1061,7 @@
 .public-layout .navigation-panel {
   padding-top: 50px;
   padding-bottom: 20px;
-  height: calc(100% - 30px);
+  // height: calc(100% - 30px);
   box-sizing: border-box;
 
   &::-webkit-scrollbar {
@@ -1758,8 +1763,8 @@
     margin-top: 0;
   }
 
-  #mastodon .column-link .column-link__icon,
-  .public-layout .column-link .column-link__icon {
+  #mastodon .navigation-panel .column-link .column-link__icon,
+  .public-layout .navigation-panel .column-link .column-link__icon {
     margin-inline-end: 0 !important;
   }
 }
