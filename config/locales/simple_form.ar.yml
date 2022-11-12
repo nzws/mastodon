@@ -79,6 +79,7 @@ ar:
         ip: أدخل عنوان IPv4 أو IPv6. يمكنك حظر نطاقات كاملة باستخدام بناء الـCIDR. كن حذراً على أن لا تَحظر نفسك!
         severities:
           no_access: حظر الوصول إلى جميع المصادر
+          sign_up_block: لا يمكن إنشاء حسابات جديدة
           sign_up_requires_approval: التسجيلات الجديدة سوف تتطلب موافقتك
         severity: اختر ما سيحدث مع الطلبات من هذا الـIP
       rule:
@@ -177,6 +178,7 @@ ar:
         setting_use_pending_items: الوضع البطيء
         severity: القوّة
         sign_in_token_attempt: رمز الأمان
+        title: العنوان
         type: صيغة الاستيراد
         username: اسم المستخدم
         username_or_email: اسم المستخدم أو كلمة السر
@@ -188,6 +190,7 @@ ar:
       filters:
         actions:
           hide: إخفاء بالكامل
+          warn: إخفاء بتحذير
       form_admin_settings:
         custom_css: سي أس أس CSS مخصص
         profile_directory: تفعيل دليل الصفحات التعريفية

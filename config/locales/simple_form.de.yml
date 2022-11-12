@@ -255,7 +255,7 @@ de:
       interactions:
         must_be_follower: Benachrichtigungen von Profilen verbergen, die mir nicht folgen
         must_be_following: Benachrichtigungen von Profilen verbergen, denen ich nicht folge
-        must_be_following_dm: Direktnachrichten von Profilen, denen Du nicht folgst, nicht gestatten
+        must_be_following_dm: Direktnachrichten von Profilen, denen Du nicht folgst, verweigern
       invite:
         comment: Kommentar
       invite_request:
