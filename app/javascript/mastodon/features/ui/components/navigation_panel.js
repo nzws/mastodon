@@ -26,6 +26,8 @@ const messages = defineMessages({
   followsAndFollowers: { id: 'navigation_bar.follows_and_followers', defaultMessage: 'Follows and followers' },
   about: { id: 'navigation_bar.about', defaultMessage: 'About' },
   search: { id: 'navigation_bar.search', defaultMessage: 'Search' },
+  gettingStarted: { id: 'getting_started.heading', defaultMessage: 'Getting started' },
+  publish: { id: 'compose_form.publish', defaultMessage: 'Publish' },
 });
 
 export default @injectIntl
@@ -104,9 +106,9 @@ class NavigationPanel extends React.Component {
 
         {signedIn && (
           <React.Fragment>
-            <ColumnLink transparent to='/getting-started' icon='bars' />
+            <ColumnLink transparent to='/getting-started' icon='bars' text={intl.formatMessage(messages.gettingStarted)} />
 
-            <ColumnLink transparent to='/publish' icon='pencil' />
+            <ColumnLink transparent to='/publish' icon='pencil' text={intl.formatMessage(messages.publish)} />
           </React.Fragment>
         )}
 
