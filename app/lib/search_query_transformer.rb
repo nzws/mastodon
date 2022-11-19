@@ -3,6 +3,7 @@
 class SearchQueryTransformer < Parslet::Transform
   class Query
     attr_reader :should_clauses, :must_not_clauses, :must_clauses, :filter_clauses
+    attr_reader :order_clauses
 
     def initialize(clauses)
       grouped = clauses.chunk(&:operator).to_h
@@ -10,6 +11,7 @@ class SearchQueryTransformer < Parslet::Transform
       @must_not_clauses = grouped.fetch(:must_not, [])
       @must_clauses = grouped.fetch(:must, [])
       @filter_clauses = grouped.fetch(:filter, [])
+      @order_clauses = grouped.fetch(:order, [])
     end
 
     def apply(search)
@@ -17,6 +19,7 @@ class SearchQueryTransformer < Parslet::Transform
       must_clauses.each { |clause| search = search.query.must(clause_to_query(clause)) }
       must_not_clauses.each { |clause| search = search.query.must_not(clause_to_query(clause)) }
       filter_clauses.each { |clause| search = search.filter(**clause_to_filter(clause)) }
+      order_clauses.each { |clause| search = search.order(**clause_to_order(clause)) }
       search.query.minimum_should_match(1)
     end
 
@@ -36,7 +39,24 @@ class SearchQueryTransformer < Parslet::Transform
     def clause_to_filter(clause)
       case clause
       when PrefixClause
-        { term: { clause.filter => clause.term } }
+        if clause.present?
+          if clause.terms.present? && clause.terms.size > 0
+            return { terms: { clause.filter => clause.terms } }
+          elsif clause.term.present?
+            return { term: { clause.filter => clause.term } }
+          end
+        end
+
+        {}
+      else
+        raise "Unexpected clause type: #{clause}"
+      end
+    end
+
+    def clause_to_order(clause)
+      case clause
+      when PrefixClause
+        { clause.filter => { order: clause.order } }
       else
         raise "Unexpected clause type: #{clause}"
       end
@@ -82,8 +102,9 @@ class SearchQueryTransformer < Parslet::Transform
 
   class PrefixClause
     attr_reader :filter, :operator, :term
+    attr_reader :terms, :order
 
-    def initialize(prefix, term)
+    def initialize(prefix, term, search_by)
       @operator = :filter
       case prefix
       when 'from'
@@ -94,6 +115,56 @@ class SearchQueryTransformer < Parslet::Transform
         account          = Account.find_remote!(username, domain)
 
         @term = account.id
+      when 'from_domain'
+        @filter = :account_domain
+
+        @term = term
+      when 'boosted'
+        @filter = :boosted_by
+
+        @term = search_by.id
+      when 'favorited'
+        @filter = :favourited_by
+
+        @term = search_by.id
+      when 'bookmarked'
+        @filter = :bookmarked_by
+
+        @term = search_by.id
+      when 'by_following'
+        @filter = :account_id
+
+        @terms = Follow.where(account: search_by).select(:target_account_id).map(&:target_account_id)
+        if @terms.empty?
+          # 空だとなんかコケるのでとりあえず
+          @terms = [0]
+        end
+      when 'by_follower'
+        @filter = :account_id
+
+        @terms = Follow.where(target_account: search_by).select(:account_id).map(&:account_id)
+        if @terms.empty?
+          @terms = [0]
+        end
+      when 'sort'
+        @operator = :order
+
+        case term
+        when 'created-desc'
+          @filter = :created_at
+          @order = :desc
+        when 'created-asc'
+          @filter = :created_at
+          @order = :asc
+        when 'boosts-desc'
+          @filter = :boosts_count
+          @order = :desc
+        when 'favourites-desc'
+          @filter = :favourites_count
+          @order = :desc
+        else
+          raise Mastodon::SyntaxError
+        end
       else
         raise Mastodon::SyntaxError
       end
@@ -105,7 +176,7 @@ class SearchQueryTransformer < Parslet::Transform
     operator = clause[:operator]&.to_s
 
     if clause[:prefix]
-      PrefixClause.new(prefix, clause[:term].to_s)
+      PrefixClause.new(prefix, clause[:term].to_s, account)
     elsif clause[:term]
       TermClause.new(prefix, operator, clause[:term].to_s)
     elsif clause[:shortcode]
