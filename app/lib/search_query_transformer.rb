@@ -28,7 +28,8 @@ class SearchQueryTransformer < Parslet::Transform
     def clause_to_query(clause)
       case clause
       when TermClause
-        { multi_match: { type: 'most_fields', query: clause.term, fields: ['text', 'text.stemmed'] } }
+        # { multi_match: { type: 'most_fields', query: clause.term, fields: ['text', 'text.stemmed'] } }
+        { match: { 'text.stemmed': {query: clause.term } } }
       when PhraseClause
         { match_phrase: { text: { query: clause.phrase } } }
       else
@@ -123,7 +124,7 @@ class SearchQueryTransformer < Parslet::Transform
         @filter = :boosted_by
 
         @term = search_by.id
-      when 'favorited'
+      when 'favourited'
         @filter = :favourited_by
 
         @term = search_by.id

@@ -3,7 +3,7 @@
 class Api::V2::SearchController < Api::BaseController
   include Authorization
 
-  RESULTS_LIMIT = 20
+  RESULTS_LIMIT = 100
 
   before_action -> { authorize_if_got_token! :read, :'read:search' }
   before_action :validate_search_params!

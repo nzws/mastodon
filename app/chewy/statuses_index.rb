@@ -4,6 +4,14 @@ class StatusesIndex < Chewy::Index
   include FormattingHelper
 
   settings index: { refresh_interval: '30s' }, analysis: {
+    tokenizer: {
+      sudachi_tokenizer: {
+        type: 'sudachi_tokenizer',
+        discard_punctuation: true,
+        resources_path: '/usr/share/elasticsearch/config/sudachi',
+        settings_path: '/usr/share/elasticsearch/config/sudachi/sudachi.json',
+      },
+    },
     filter: {
       english_stop: {
         type: 'stop',
@@ -17,10 +25,15 @@ class StatusesIndex < Chewy::Index
         type: 'stemmer',
         language: 'possessive_english',
       },
+      search: {
+        type: 'sudachi_split',
+        mode: 'search',
+      },
     },
     analyzer: {
       content: {
-        tokenizer: 'uax_url_email',
+        tokenizer: 'sudachi_tokenizer',
+        type: 'custom',
         filter: %w(
           english_possessive_stemmer
           lowercase
@@ -28,6 +41,10 @@ class StatusesIndex < Chewy::Index
           cjk_width
           english_stop
           english_stemmer
+          sudachi_part_of_speech
+          sudachi_ja_stop
+          sudachi_baseform
+          search
         ),
       },
     },
