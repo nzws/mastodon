@@ -166,6 +166,30 @@ class Status < ApplicationRecord
     ].compact.join("\n\n")
   end
 
+  def boosted_by(preloaded = nil)
+    if preloaded.nil?
+      reblogs.where(account: Account.local).pluck(:account_id)
+    else
+      preloaded.reblogs[id] || []
+    end
+  end
+
+  def favourited_by(preloaded = nil)
+    if preloaded.nil?
+      favourites.where(account: Account.local).pluck(:account_id)
+    else
+      preloaded.favourites[id] || []
+    end
+  end
+
+  def bookmarked_by(preloaded = nil)
+    if preloaded.nil?
+      bookmarks.where(account: Account.local).pluck(:account_id)
+    else
+      preloaded.bookmarks[id] || []
+    end
+  end
+
   def to_log_human_identifier
     account.acct
   end
