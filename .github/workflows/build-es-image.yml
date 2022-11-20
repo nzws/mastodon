@@ -1,6 +1,8 @@
 name: Build es container image
 on:
   push:
+    branches:
+      - 'don.nzws.me'
     paths:
       - .github/workflows/build-es-image.yml
       - nzws-etc/elastic-search/**/*
