@@ -6,11 +6,7 @@ import spring from 'react-motion/lib/spring';
 import { reduceMotion } from 'mastodon/initial_state';
 
 const obfuscatedCount = count => {
-  if (count <= 10) {
-    return count;
-  } else {
-    return '10+';
-  }
+  return `${count}+`;
 };
 
 export default class AnimatedNumber extends React.PureComponent {
