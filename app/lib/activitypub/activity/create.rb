@@ -89,6 +89,14 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
     fetch_replies(@status)
     distribute
     forward_for_reply
+    update_index
+  end
+
+  def update_index
+    return unless Chewy.enabled?
+
+    id = @status.proper.id
+    with_redis { |redis| redis.sadd('chewy:queue:StatusesIndex', id) }
   end
 
   def distribute
