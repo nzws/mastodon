@@ -23,7 +23,7 @@
     class: Scheduler::Trends::ReviewNotificationsScheduler
     queue: scheduler
   indexing_scheduler:
-    every: '5m'
+    every: '1m'
     class: Scheduler::IndexingScheduler
     queue: scheduler
   vacuum_scheduler:
