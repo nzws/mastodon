@@ -2,6 +2,7 @@
 
 class ActivityPub::Activity::Create < ActivityPub::Activity
   include FormattingHelper
+  include Redisable
 
   def perform
     dereference_object!
@@ -93,10 +94,7 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
   end
 
   def update_index
-    return unless Chewy.enabled?
-
-    id = @status.proper.id
-    with_redis { |redis| redis.sadd('chewy:queue:StatusesIndex', id) }
+    with_redis { |redis| redis.sadd('chewy:queue:StatusesIndex', @status.proper.id) }
   end
 
   def distribute
