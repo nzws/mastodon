@@ -1,11 +1,11 @@
 // TLカラム
 .column {
   > .scrollable {
-    background: rgba($ui-base-color, 0.6);
+    background: rgba($ui-base-color, 0.8);
   }
 
   .load-more:hover {
-    background: rgba(lighten($ui-base-color, 2%), 0.6);
+    background: rgba(lighten($ui-base-color, 2%), 0.8);
   }
 
   &-header {
@@ -53,6 +53,11 @@ body {
 // 全ページの背景に画像追加
 body, body.app-body, .ui {
   background: url('../images/nzws_theme_background.png');
+  background-attachment: fixed;
+}
+
+html {
+  background-color: $classic-base-color;
 }
 
 // エラー
