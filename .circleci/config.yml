@@ -68,7 +68,7 @@ jobs:
           cache-version: v1
           pkg-manager: yarn
       - run:
-          command: ./bin/rails assets:precompile
+          command: NODE_OPTIONS=--openssl-legacy-provider ./bin/rails assets:precompile
           name: Precompile assets
       - persist_to_workspace:
           paths:
