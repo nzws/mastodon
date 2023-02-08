@@ -28,6 +28,7 @@ const messages = defineMessages({
   search: { id: 'navigation_bar.search', defaultMessage: 'Search' },
   gettingStarted: { id: 'getting_started.heading', defaultMessage: 'Getting started' },
   publish: { id: 'compose_form.publish', defaultMessage: 'Publish' },
+  signIn: { id: 'sign_in_banner.sign_in', defaultMessage: 'Sign in' },
 });
 
 export default @injectIntl
@@ -101,6 +102,8 @@ class NavigationPanel extends React.Component {
           <div className='navigation-panel__legal'>
             <hr />
             <ColumnLink transparent to='/about' icon='ellipsis-h' text={intl.formatMessage(messages.about)} />
+            
+            <ColumnLink transparent href='/auth/sign_in' icon='sign-in' text={intl.formatMessage(messages.signIn)} />
           </div>
         )}
 
