@@ -35,11 +35,15 @@ namespace :branding do
 
   desc 'Generate favicons and app icons from SVG source files'
   task generate_app_icons: :environment do
-    favicon_source  = Rails.root.join('app', 'javascript', 'images', 'logo.svg')
-    app_icon_source = Rails.root.join('app', 'javascript', 'images', 'app-icon.svg')
+    # favicon_source  = Rails.root.join('app', 'javascript', 'images', 'logo.svg')
+    # app_icon_source = Rails.root.join('app', 'javascript', 'images', 'app-icon.svg')
     output_dest     = Rails.root.join('app', 'javascript', 'icons')
 
-    rsvg_convert = Terrapin::CommandLine.new('rsvg-convert', '-w :size -h :size --keep-aspect-ratio :input -o :output')
+    transparent_icon_source  = Rails.root.join('app', 'javascript', 'images', 'nzws', 'transparent.png')
+    maskable_icon_source = Rails.root.join('app', 'javascript', 'images', 'nzws', 'maskable.png')
+    rsvg_convert = Terrapin::CommandLine.new('convert', '-resize :size :input :output')
+
+    # rsvg_convert = Terrapin::CommandLine.new('rsvg-convert', '-w :size -h :size --keep-aspect-ratio :input -o :output')
     convert = Terrapin::CommandLine.new('convert', ':input :output')
 
     favicon_sizes      = [16, 32, 48]
@@ -51,17 +55,21 @@ namespace :branding do
     favicon_sizes.each do |size|
       output_path = output_dest.join("favicon-#{size}x#{size}.png")
       favicons << output_path
-      rsvg_convert.run(size: size, input: favicon_source, output: output_path)
+      rsvg_convert.run(size: "#{size}x#{size}", input: transparent_icon_source, output: output_path)
     end
 
     convert.run(input: favicons, output: Rails.root.join('public', 'favicon.ico'))
 
     apple_icon_sizes.each do |size|
-      rsvg_convert.run(size: size, input: app_icon_source, output: output_dest.join("apple-touch-icon-#{size}x#{size}.png"))
+      rsvg_convert.run(size: "#{size}x#{size}", input: transparent_icon_source, output: output_dest.join("apple-touch-icon-#{size}x#{size}.png"))
     end
 
     android_icon_sizes.each do |size|
-      rsvg_convert.run(size: size, input: app_icon_source, output: output_dest.join("android-chrome-#{size}x#{size}.png"))
+      rsvg_convert.run(size: "#{size}x#{size}", input: transparent_icon_source, output: output_dest.join("android-chrome-#{size}x#{size}.png"))
+    end
+
+    android_icon_sizes.each do |size|
+      rsvg_convert.run(size: "#{size}x#{size}", input: maskable_icon_source, output: output_dest.join("maskable-icon-#{size}x#{size}.png"))
     end
   end
 
