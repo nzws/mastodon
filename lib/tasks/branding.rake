@@ -61,7 +61,7 @@ namespace :branding do
     convert.run(input: favicons, output: Rails.root.join('public', 'favicon.ico'))
 
     apple_icon_sizes.each do |size|
-      rsvg_convert.run(size: "#{size}x#{size}", input: transparent_icon_source, output: output_dest.join("apple-touch-icon-#{size}x#{size}.png"))
+      rsvg_convert.run(size: "#{size}x#{size}", input: maskable_icon_source, output: output_dest.join("apple-touch-icon-#{size}x#{size}.png"))
     end
 
     android_icon_sizes.each do |size|
