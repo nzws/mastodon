@@ -272,13 +272,23 @@
   border: 0 !important;
   contain: unset !important;
 }
+
 #mastodon .scrollable:not(.scrollable--flex):not(.activity-stream),
 .public-layout .scrollable:not(.scrollable--flex):not(.activity-stream),
 #mastodon .activity-stream:not(.activity-stream),
 .public-layout .activity-stream:not(.activity-stream) {
   padding: 10px;
-  padding-right: 0;
 }
+
+.layout-multiple-columns {
+  #mastodon .scrollable:not(.scrollable--flex):not(.activity-stream),
+  .public-layout .scrollable:not(.scrollable--flex):not(.activity-stream),
+  #mastodon .activity-stream:not(.activity-stream),
+  .public-layout .activity-stream:not(.activity-stream) {
+    padding-right: 0;
+  }
+}
+
 #mastodon .scrollable:not(.scrollable--flex) > [tabindex]:first-child > .focusable,
 .public-layout .scrollable:not(.scrollable--flex) > [tabindex]:first-child > .focusable,
 #mastodon .activity-stream > [tabindex]:first-child > .focusable,
