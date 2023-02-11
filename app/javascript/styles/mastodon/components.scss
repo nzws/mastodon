@@ -1786,6 +1786,10 @@ a.account__display-name {
     text-overflow: ellipsis;
     padding-right: 5px;
   }
+
+  > span {
+    width: 100%;
+  }
 }
 
 .notification__favourite-icon-wrapper {

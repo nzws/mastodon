@@ -160,6 +160,10 @@ class Notification extends ImmutablePureComponent {
             </div>
 
             <span title={notification.get('created_at')}>
+              <span className='notification__relative_time'>
+                <RelativeTimestamp timestamp={notification.get('created_at')} />
+              </span>
+
               <FormattedMessage id='notification.follow_request' defaultMessage='{name} has requested to follow you' values={{ name: link }} />
             </span>
           </div>
@@ -313,6 +317,10 @@ class Notification extends ImmutablePureComponent {
             </div>
 
             <span title={notification.get('created_at')}>
+              <span className='notification__relative_time'>
+                <RelativeTimestamp timestamp={notification.get('created_at')} />
+              </span>
+
               <FormattedMessage id='notification.update' defaultMessage='{name} edited a post' values={{ name: link }} />
             </span>
           </div>
@@ -393,6 +401,10 @@ class Notification extends ImmutablePureComponent {
             </div>
 
             <span title={notification.get('created_at')}>
+              <span className='notification__relative_time'>
+                <RelativeTimestamp timestamp={notification.get('created_at')} />
+              </span>
+
               <FormattedMessage id='notification.admin.sign_up' defaultMessage='{name} signed up' values={{ name: link }} />
             </span>
           </div>
@@ -423,6 +435,10 @@ class Notification extends ImmutablePureComponent {
             </div>
 
             <span title={notification.get('created_at')}>
+              <span className='notification__relative_time'>
+                <RelativeTimestamp timestamp={notification.get('created_at')} />
+              </span>
+
               <FormattedMessage id='notification.admin.report' defaultMessage='{name} reported {target}' values={{ name: link, target: targetLink }} />
             </span>
           </div>
