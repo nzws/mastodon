@@ -19,14 +19,16 @@
 
 body {
   &::-webkit-scrollbar {
-    &-track, &-track:hover {
+    &-track,
+    &-track:hover {
       background: $ui-base-color;
     }
   }
 }
 
 ::-webkit-scrollbar {
-  &-thumb, &-thumb:active {
+  &-thumb,
+  &-thumb:active {
     background: lighten($ui-base-color, 8%);
   }
 
@@ -51,7 +53,9 @@ body {
 }
 
 // 全ページの背景に画像追加
-body, body.app-body, .ui {
+body,
+body.app-body,
+.ui {
   background: url('../images/nzws_theme_background.png');
   background-attachment: fixed;
 }
