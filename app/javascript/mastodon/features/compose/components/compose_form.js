@@ -122,7 +122,7 @@ class ComposeForm extends ImmutablePureComponent {
 
     this.props.onChangeVisibility(privacy);
     this.handleSubmit();
-  }
+  };
 
   onSuggestionsClearRequested = () => {
     this.props.onClearSuggestions();

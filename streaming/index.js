@@ -416,7 +416,7 @@ const startWorker = async (workerId) => {
     'public:remote',
     'public:remote:media',
     'hashtag',
-    'hashtag:local'
+    'hashtag:local',
   ];
 
   /**
