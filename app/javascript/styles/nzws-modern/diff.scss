@@ -364,9 +364,15 @@
 .public-layout .account-timeline__header {
   margin: -10px;
   margin-bottom: 10px;
-  margin-right: 0;
   background-color: inherit;
   border-radius: var(--radius);
+}
+
+.layout-multiple-columns {
+  #mastodon .account-timeline__header,
+  .public-layout .account-timeline__header {
+    margin-right: 0;
+  }
 }
 
 #mastodon .account-timeline__header .account__moved-note,
