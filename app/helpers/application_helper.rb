@@ -244,4 +244,12 @@ module ApplicationHelper
   def prerender_custom_emojis(html, custom_emojis, other_options = {})
     EmojiFormatter.new(html, custom_emojis, other_options.merge(animate: prefers_autoplay?)).to_s
   end
+
+  def cloudflare_web_analytics_token
+    ENV['CLOUDFLARE_WEB_ANALYTICS_TOKEN']
+  end
+
+  def cloudflare_web_analytics_token?
+    cloudflare_web_analytics_token.present?
+  end
 end
