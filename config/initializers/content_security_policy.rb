@@ -17,9 +17,11 @@ media_host ||= host_to_url(ENV['S3_HOSTNAME']) if ENV['S3_ENABLED'] == 'true'
 media_host ||= assets_host
 
 if ENV['CLOUDFLARE_WEB_ANALYTICS_TOKEN'].present?
-  cf_web_analytics_host = "https://static.cloudflareinsights.com"
+  cf_web_analytics_script = "https://static.cloudflareinsights.com"
+  cf_web_analytics_connect = "https://cloudflareinsights.com"
 else
-  cf_web_analytics_host = ""
+  cf_web_analytics_script = ""
+  cf_web_analytics_connect = ""
 end
 
 Rails.application.config.content_security_policy do |p|
@@ -37,13 +39,13 @@ Rails.application.config.content_security_policy do |p|
   if Rails.env.development?
     webpacker_urls = %w(ws http).map { |protocol| "#{protocol}#{Webpacker.dev_server.https? ? 's' : ''}://#{Webpacker.dev_server.host_with_port}" }
 
-    p.connect_src :self, :data, :blob, assets_host, media_host, Rails.configuration.x.streaming_api_base_url, *webpacker_urls
-    p.script_src  :self, :unsafe_inline, :unsafe_eval, assets_host, cf_web_analytics_host
+    p.connect_src :self, :data, :blob, assets_host, media_host, Rails.configuration.x.streaming_api_base_url, *webpacker_urls, cf_web_analytics_connect
+    p.script_src  :self, :unsafe_inline, :unsafe_eval, assets_host, cf_web_analytics_script
     p.child_src   :self, :blob, assets_host
     p.worker_src  :self, :blob, assets_host
   else
-    p.connect_src :self, :data, :blob, assets_host, media_host, Rails.configuration.x.streaming_api_base_url
-    p.script_src  :self, assets_host, "'wasm-unsafe-eval'", cf_web_analytics_host
+    p.connect_src :self, :data, :blob, assets_host, media_host, Rails.configuration.x.streaming_api_base_url, cf_web_analytics_connect
+    p.script_src  :self, assets_host, "'wasm-unsafe-eval'", cf_web_analytics_script
     p.child_src   :self, :blob, assets_host
     p.worker_src  :self, :blob, assets_host
   end
