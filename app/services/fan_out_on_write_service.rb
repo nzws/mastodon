@@ -18,7 +18,9 @@ class FanOutOnWriteService < BaseService
 
     fan_out_to_local_recipients!
     fan_out_to_public_recipients! if broadcastable?
-    fan_out_to_public_streams! if broadcastable?
+    # fan_out_to_public_streams! if broadcastable?
+    broadcast_to_public_streams! if broadcastable?
+    broadcast_to_hashtag_streams! if hashtag_broadcastable?
   end
 
   private
@@ -56,6 +58,7 @@ class FanOutOnWriteService < BaseService
     deliver_to_hashtag_followers!
   end
 
+  # nzws: not using
   def fan_out_to_public_streams!
     broadcast_to_hashtag_streams!
     broadcast_to_public_streams!
@@ -157,5 +160,9 @@ class FanOutOnWriteService < BaseService
 
   def broadcastable?
     @status.public_visibility? && !@status.reblog? && !@account.silenced?
+  end
+
+  def hashtag_broadcastable?
+    (@status.public_visibility? || @status.unlisted_visibility?) && !@status.reblog? && !@account.silenced?
   end
 end
