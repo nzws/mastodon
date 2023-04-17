@@ -30,7 +30,6 @@ executors:
       docker_layer_caching: true
     resource_class: arm.medium
 
-
 commands:
   install-system-dependencies:
     steps:
