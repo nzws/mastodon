@@ -357,7 +357,7 @@ class StatusActionBar extends ImmutablePureComponent {
       <IconButton className='status__action-bar__button' title={intl.formatMessage(messages.hide)} icon='eye' onClick={this.handleHideClick} />
     );
 
-    const maybeShared = isRemote && (status.get('replies_count') >= 2 || status.get('reblogs_count') >= 5);
+    const maybeShared = isRemote && (status.get('replies_count') > 0 || status.get('reblogs_count') > 0 || status.get('favourites_count') > 0);
 
     return (
       <div className='status__action-bar'>
