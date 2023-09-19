@@ -4,14 +4,6 @@ class StatusesIndex < Chewy::Index
   include FormattingHelper
 
   settings index: { refresh_interval: '30s' }, analysis: {
-    tokenizer: {
-      sudachi_tokenizer: {
-        type: 'sudachi_tokenizer',
-        discard_punctuation: true,
-        resources_path: '/usr/share/elasticsearch/config/sudachi',
-        settings_path: '/usr/share/elasticsearch/config/sudachi/sudachi.json',
-      },
-    },
     filter: {
       english_stop: {
         type: 'stop',
@@ -25,15 +17,10 @@ class StatusesIndex < Chewy::Index
         type: 'stemmer',
         language: 'possessive_english',
       },
-      search: {
-        type: 'sudachi_split',
-        mode: 'search',
-      },
     },
     analyzer: {
       content: {
-        tokenizer: 'sudachi_tokenizer',
-        type: 'custom',
+        tokenizer: 'uax_url_email',
         filter: %w(
           english_possessive_stemmer
           lowercase
@@ -41,10 +28,6 @@ class StatusesIndex < Chewy::Index
           cjk_width
           english_stop
           english_stemmer
-          sudachi_part_of_speech
-          sudachi_ja_stop
-          sudachi_baseform
-          search
         ),
       },
     },
@@ -52,7 +35,7 @@ class StatusesIndex < Chewy::Index
 
   # We do not use delete_if option here because it would call a method that we
   # expect to be called with crutches without crutches, causing n+1 queries
-  index_scope ::Status.unscoped.kept.without_reblogs.includes(:media_attachments, :preloadable_poll, :status_stat)
+  index_scope ::Status.unscoped.kept.without_reblogs.includes(:media_attachments, :preloadable_poll)
 
   crutch :mentions do |collection|
     data = ::Mention.where(status_id: collection.map(&:id)).where(account: Account.local, silent: false).pluck(:status_id, :account_id)
@@ -88,13 +71,5 @@ class StatusesIndex < Chewy::Index
     end
 
     field :searchable_by, type: 'long', value: ->(status, crutches) { status.searchable_by(crutches) }
-
-    field :account_domain, type: 'keyword', value: ->(status) { status.account.domain }
-    field :created_at, type: 'date', value: ->(status) { status.created_at.iso8601 }
-    field :boosted_by, type: 'long', value: ->(status, crutches) { status.boosted_by(crutches) }
-    field :favourited_by, type: 'long', value: ->(status, crutches) { status.favourited_by(crutches) }
-    field :bookmarked_by, type: 'long', value: ->(status, crutches) { status.bookmarked_by(crutches) }
-    field :boosts_count, type: 'long', value: ->(status) { status.reblogs_count || 0 }
-    field :favourites_count, type: 'long', value: ->(status) { status.favourites_count || 0 }
   end
 end

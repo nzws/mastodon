@@ -25,12 +25,11 @@ class Importer::StatusesIndexImporter < Importer::BaseImporter
           # on the results of the filter, so this filtering happens here instead
           bulk.map! do |entry|
             new_entry = begin
-              # if entry[:index] && entry.dig(:index, :data, 'searchable_by').blank?
-              #   { delete: entry[:index].except(:data) }
-              # else
-              #   entry
-              # end
-              entry
+              if entry[:index] && entry.dig(:index, :data, 'searchable_by').blank?
+                { delete: entry[:index].except(:data) }
+              else
+                entry
+              end
             end
 
             if new_entry[:index]
@@ -65,7 +64,6 @@ class Importer::StatusesIndexImporter < Importer::BaseImporter
       local_favourites_scope,
       local_votes_scope,
       local_bookmarks_scope,
-      remote_known_statuses_scope,
     ]
   end
 
@@ -87,12 +85,5 @@ class Importer::StatusesIndexImporter < Importer::BaseImporter
 
   def local_statuses_scope
     Status.local.select('"statuses"."id", COALESCE("statuses"."reblog_of_id", "statuses"."id") AS status_id')
-  end
-
-  def remote_known_statuses_scope
-    # データ数がえげつないのでブースト/ふぁぼが1件以上あるリモート投稿
-    Status.remote.left_joins(:status_stat)
-      .where('COALESCE(status_stats.reblogs_count, 0) > 0 OR COALESCE(status_stats.favourites_count, 0) > 0')
-      .select('"statuses"."id", COALESCE("statuses"."reblog_of_id", "statuses"."id") AS status_id')
   end
 end
