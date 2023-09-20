@@ -35,9 +35,7 @@ class SearchService < BaseService
   end
 
   def perform_statuses_search!
-    # definition = parsed_query.apply(StatusesIndex.filter(term: { searchable_by: @account.id }))
-
-    definition = parsed_query.apply(StatusesIndex)
+    definition = parsed_query.apply(StatusesIndex.filter(term: { searchable_by: @account.id }))
 
     if @options[:account_id].present?
       definition = definition.filter(term: { account_id: @options[:account_id] })
@@ -126,6 +124,6 @@ class SearchService < BaseService
   end
 
   def parsed_query
-    SearchQueryTransformer.new.apply(SearchQueryParser.new.parse(@query), account: @account)
+    SearchQueryTransformer.new.apply(SearchQueryParser.new.parse(@query))
   end
 end
