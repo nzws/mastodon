@@ -41,8 +41,6 @@
 #mastodon .compose-form__warning,
 .public-layout .compose-form__warning {
   border-radius: var(--radius) !important;
-  background: none;
-  font-weight: bold;
 }
 
 #mastodon button:focus-visible,
@@ -2641,4 +2639,14 @@
 
 .status__action-bar {
   gap: 4px;
+}
+
+#tabs-bar__portal > button.column-back-button {
+  font-weight: bold;
+}
+
+@media (width >= 1191px) {
+  #tabs-bar__portal > button.column-back-button {
+    background: none;
+  }
 }
