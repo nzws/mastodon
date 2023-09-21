@@ -11,7 +11,7 @@ class RateLimiter
 
     statuses: {
       limit: 1000,
-      period: 1.hours.freeze,
+      period: 1.hour.freeze,
     }.freeze,
 
     reports: {

@@ -20,11 +20,11 @@ media_host ||= host_to_url(ENV['S3_HOSTNAME']) if ENV['S3_ENABLED'] == 'true'
 media_host ||= assets_host
 
 if ENV['CLOUDFLARE_WEB_ANALYTICS_TOKEN'].present?
-  cf_web_analytics_script = "https://static.cloudflareinsights.com"
-  cf_web_analytics_connect = "https://cloudflareinsights.com"
+  cf_web_analytics_script = 'https://static.cloudflareinsights.com'
+  cf_web_analytics_connect = 'https://cloudflareinsights.com'
 else
-  cf_web_analytics_script = ""
-  cf_web_analytics_connect = ""
+  cf_web_analytics_script = ''
+  cf_web_analytics_connect = ''
 end
 
 def sso_host
