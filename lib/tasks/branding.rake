@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :branding do
   desc 'Generate necessary graphic assets for branding from source SVG files'
   task generate: :environment do
@@ -37,9 +39,9 @@ namespace :branding do
   task generate_app_icons: :environment do
     # favicon_source  = Rails.root.join('app', 'javascript', 'images', 'logo.svg')
     # app_icon_source = Rails.root.join('app', 'javascript', 'images', 'app-icon.svg')
-    output_dest     = Rails.root.join('app', 'javascript', 'icons')
+    output_dest = Rails.root.join('app', 'javascript', 'icons')
 
-    transparent_icon_source  = Rails.root.join('app', 'javascript', 'images', 'nzws', 'transparent.png')
+    transparent_icon_source = Rails.root.join('app', 'javascript', 'images', 'nzws', 'transparent.png')
     maskable_icon_source = Rails.root.join('app', 'javascript', 'images', 'nzws', 'maskable.png')
     rsvg_convert = Terrapin::CommandLine.new('rsvg-convert', '-w :size -h :size --keep-aspect-ratio :input -o :output')
     convert = Terrapin::CommandLine.new('convert', ':input :output', environment: { 'MAGICK_CONFIGURE_PATH' => nil })
@@ -64,9 +66,7 @@ namespace :branding do
 
     android_icon_sizes.each do |size|
       rsvg_convert.run(size: "#{size}x#{size}", input: transparent_icon_source, output: output_dest.join("android-chrome-#{size}x#{size}.png"))
-    end
 
-    android_icon_sizes.each do |size|
       rsvg_convert.run(size: "#{size}x#{size}", input: maskable_icon_source, output: output_dest.join("maskable-icon-#{size}x#{size}.png"))
     end
   end

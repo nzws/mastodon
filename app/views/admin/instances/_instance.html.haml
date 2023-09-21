@@ -6,10 +6,10 @@
 
       %small
         - if instance.domain_block
-          = instance.domain_block.policies.map { |policy| t(policy, scope: 'admin.instances.content_policies.policies') }.join(' • ')
+          = instance.domain_block.policies.map { |policy| t(policy, scope: 'admin.instances.content_policies.policies') }.join(' · ')
         - elsif instance.domain_allow
           = t('admin.accounts.whitelisted')
         - else
           = t('admin.accounts.no_limits_imposed')
-    
+
     .trends__item__current{ title: t('admin.instances.known_accounts', count: instance.accounts_count) }= friendly_number_to_human instance.accounts_count

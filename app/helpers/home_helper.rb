@@ -8,7 +8,7 @@ module HomeHelper
   end
 
   def account_link_to(account, button = '', path: nil)
-    content_tag(:div, class: 'account') do
+    content_tag(:div, class: 'account account--minimal') do
       content_tag(:div, class: 'account__wrapper') do
         section = if account.nil?
                     content_tag(:div, class: 'account__display-name') do
@@ -40,10 +40,12 @@ module HomeHelper
   end
 
   def obscured_counter(count)
-    if count <= 99
-      count
+    if count <= 0
+      '0'
+    elsif count == 1
+      '1'
     else
-      '99+'
+      count.to_s
     end
   end
 
@@ -52,14 +54,6 @@ module HomeHelper
       'verified'
     else
       'emojify'
-    end
-  end
-
-  def optional_link_to(condition, path, options = {}, &block)
-    if condition
-      link_to(path, options, &block)
-    else
-      content_tag(:div, &block)
     end
   end
 

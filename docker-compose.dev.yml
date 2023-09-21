@@ -26,7 +26,7 @@ services:
       - ./redis:/data
 
   es:
-    build: ./nzws-etc/elastic-search
+    image: ghcr.io/nzws/elasticsearch-sudachi:latest
     environment:
       - 'ES_JAVA_OPTS=-Xms512m -Xmx512m -Des.enforce.bootstrap.checks=true'
       - 'xpack.license.self_generated.type=basic'

@@ -20,6 +20,7 @@ class FanOutOnWriteService < BaseService
     fan_out_to_public_recipients! if broadcastable?
     # fan_out_to_public_streams! if broadcastable?
     broadcast_to_public_streams! if broadcastable?
+    # nzws: 未収載の投稿をハッシュタグTLに流す
     broadcast_to_hashtag_streams! if hashtag_broadcastable?
   end
 

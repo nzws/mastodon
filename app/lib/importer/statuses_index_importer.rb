@@ -11,36 +11,26 @@ class Importer::StatusesIndexImporter < Importer::BaseImporter
       # from a different scope to avoid indexing them multiple times, but that
       # could end up being a very large array
 
-      scope.find_in_batches(batch_size: @batch_size) do |tmp|
+      scope.reorder(nil).find_in_batches(batch_size: @batch_size) do |tmp|
         in_work_unit(tmp.map(&:status_id)) do |status_ids|
-          bulk = ActiveRecord::Base.connection_pool.with_connection do
-            Chewy::Index::Import::BulkBuilder.new(index, to_index: Status.includes(:media_attachments, :preloadable_poll).where(id: status_ids)).bulk_body
-          end
-
-          indexed = 0
           deleted = 0
 
-          # We can't use the delete_if proc to do the filtering because delete_if
-          # is called before rendering the data and we need to filter based
-          # on the results of the filter, so this filtering happens here instead
-          bulk.map! do |entry|
-            new_entry = begin
-              # if entry[:index] && entry.dig(:index, :data, 'searchable_by').blank?
-              #   { delete: entry[:index].except(:data) }
-              # else
-              #   entry
-              # end
-              entry
+          bulk = ActiveRecord::Base.connection_pool.with_connection do
+            to_index = index.adapter.default_scope.where(id: status_ids)
+            crutches = Chewy::Index::Crutch::Crutches.new index, to_index
+            to_index.map do |object|
+              # This is unlikely to happen, but the post may have been
+              # un-interacted with since it was queued for indexing
+              if object.searchable_by.empty?
+                deleted += 1
+                { delete: { _id: object.id } }
+              else
+                { index: { _id: object.id, data: index.compose(object, crutches, fields: []) } }
+              end
             end
-
-            if new_entry[:index]
-              indexed += 1
-            else
-              deleted += 1
-            end
-
-            new_entry
           end
+
+          indexed = bulk.size - deleted
 
           Chewy::Index::Import::BulkRequest.new(index).perform(bulk)
 
@@ -65,7 +55,6 @@ class Importer::StatusesIndexImporter < Importer::BaseImporter
       local_favourites_scope,
       local_votes_scope,
       local_bookmarks_scope,
-      remote_known_statuses_scope,
     ]
   end
 
@@ -87,12 +76,5 @@ class Importer::StatusesIndexImporter < Importer::BaseImporter
 
   def local_statuses_scope
     Status.local.select('"statuses"."id", COALESCE("statuses"."reblog_of_id", "statuses"."id") AS status_id')
-  end
-
-  def remote_known_statuses_scope
-    # データ数がえげつないのでブースト/ふぁぼが1件以上あるリモート投稿
-    Status.remote.left_joins(:status_stat)
-      .where('COALESCE(status_stats.reblogs_count, 0) > 0 OR COALESCE(status_stats.favourites_count, 0) > 0')
-      .select('"statuses"."id", COALESCE("statuses"."reblog_of_id", "statuses"."id") AS status_id')
   end
 end

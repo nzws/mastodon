@@ -47,7 +47,7 @@ class ManifestSerializer < ActiveModel::Serializer
       }
     end
 
-    return android + maskable
+    android + maskable
   end
 
   def theme_color
