@@ -233,7 +233,7 @@ module ApplicationHelper
   end
 
   def cloudflare_web_analytics_token
-    ENV['CLOUDFLARE_WEB_ANALYTICS_TOKEN']
+    ENV.fetch('CLOUDFLARE_WEB_ANALYTICS_TOKEN', nil)
   end
 
   def cloudflare_web_analytics_token?

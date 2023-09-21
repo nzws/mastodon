@@ -82,7 +82,7 @@ class Rack::Attack
     req.authenticated_user_id if req.post? && req.path.match?(/\A\/api\/v\d+\/media\z/i)
   end
 
-  throttle('throttle_media_proxy', limit: 1000, period: 1.minutes) do |req|
+  throttle('throttle_media_proxy', limit: 1000, period: 1.minute) do |req|
     req.throttleable_remote_ip if req.path.start_with?('/media_proxy')
   end
 

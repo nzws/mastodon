@@ -15,11 +15,10 @@ import AccountContainer from 'mastodon/containers/account_container';
 import StatusContainer from 'mastodon/containers/status_container';
 import { me } from 'mastodon/initial_state';
 
+import RelativeTimestamp from '../../../components/relative_timestamp';
 import FollowRequestContainer from '../containers/follow_request_container';
 
 import Report from './report';
-
-import RelativeTimestamp from '../../../components/relative_timestamp';
 
 const messages = defineMessages({
   favourite: { id: 'notification.favourite', defaultMessage: '{name} favorited your status' },

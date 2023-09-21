@@ -125,11 +125,11 @@ class NavigationPanel extends Component {
         )}
 
         {signedIn && (
-          <React.Fragment>
+          <>
             <ColumnLink transparent to='/getting-started' icon='bars' text={intl.formatMessage(messages.gettingStarted)} />
 
             <ColumnLink transparent to='/publish' icon='pencil' text={intl.formatMessage(messages.publish)} />
-          </React.Fragment>
+          </>
         )}
 
         <NavigationPortal />
