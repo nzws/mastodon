@@ -1189,9 +1189,10 @@
   .public-layout .column-back-button--slim .column-back-button {
     position: fixed;
     width: 285px;
+    margin-inline-start: calc(var(--tl-width) - 15px);
     top: 0 !important;
     left: unset !important;
-    right: 20px !important;
+    right: unset !important;
     min-height: 48px !important;
     margin-top: 30px;
     overflow: clip;
@@ -2646,7 +2647,29 @@
 }
 
 @media (width >= 1191px) {
-  #tabs-bar__portal > button.column-back-button {
+  #tabs-bar__portal > button.column-back-button,
+  .column-header__buttons > .column-header__back-button {
     background: none;
+  }
+}
+
+.status--in-thread {
+  > .status__action-bar {
+    margin-inline-start: 0;
+    width: 100%;
+  }
+
+  > .status__content__read-more-button {
+    margin-inline-start: 0;
+  }
+
+  > .status__line {
+    display: none;
+  }
+}
+
+.navigation-panel {
+  .column-link {
+    border-left: none;
   }
 }
