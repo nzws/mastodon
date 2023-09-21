@@ -41,6 +41,8 @@
 #mastodon .compose-form__warning,
 .public-layout .compose-form__warning {
   border-radius: var(--radius) !important;
+  background: none;
+  font-weight: bold;
 }
 
 #mastodon button:focus-visible,
@@ -1189,10 +1191,9 @@
   .public-layout .column-back-button--slim .column-back-button {
     position: fixed;
     width: 285px;
-    margin-inline-start: 600px;
     top: 0 !important;
     left: unset !important;
-    right: unset !important;
+    right: 20px !important;
     min-height: 48px !important;
     margin-top: 30px;
     overflow: clip;
