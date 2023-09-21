@@ -15,7 +15,7 @@ import AccountContainer from 'mastodon/containers/account_container';
 import StatusContainer from 'mastodon/containers/status_container';
 import { me } from 'mastodon/initial_state';
 
-import RelativeTimestamp from '../../../components/relative_timestamp';
+import { RelativeTimestamp } from '../../../components/relative_timestamp';
 import FollowRequestContainer from '../containers/follow_request_container';
 
 import Report from './report';
