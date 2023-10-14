@@ -43,7 +43,7 @@ namespace :branding do
 
     transparent_icon_source = Rails.root.join('app', 'javascript', 'images', 'nzws', 'transparent.png')
     maskable_icon_source = Rails.root.join('app', 'javascript', 'images', 'nzws', 'maskable.png')
-    rsvg_convert = Terrapin::CommandLine.new('rsvg-convert', '-w :size -h :size --keep-aspect-ratio :input -o :output')
+    rsvg_convert = Terrapin::CommandLine.new('convert', '-resize :size :input :output')
     convert = Terrapin::CommandLine.new('convert', ':input :output', environment: { 'MAGICK_CONFIGURE_PATH' => nil })
 
     favicon_sizes      = [16, 32, 48]
