@@ -332,7 +332,7 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
 
   def fetch_replies(status)
     collection = @object['replies']
-    return if collection.nil?
+    return if collection.blank?
 
     replies = ActivityPub::FetchRepliesService.new.call(status, collection, allow_synchronous_requests: false, request_id: @options[:request_id])
     return unless replies.nil?

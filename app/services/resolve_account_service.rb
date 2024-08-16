@@ -120,12 +120,8 @@ class ResolveAccountService < BaseService
     @options[:skip_cache] || @account.nil? || @account.possibly_stale?
   end
 
-  def activitypub_ready?
-    ['application/activity+json', 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'].include?(@webfinger.link('self', 'type'))
-  end
-
   def actor_url
-    @actor_url ||= @webfinger.link('self', 'href')
+    @actor_url ||= @webfinger.self_link_href
   end
 
   def gone_from_origin?
