@@ -28,6 +28,10 @@ module Mastodon
       ENV.fetch('MASTODON_VERSION_METADATA', nil)
     end
 
+    def suffix
+      '+nzws'
+    end
+
     def to_a
       [major, minor, patch].compact
     end
@@ -44,7 +48,7 @@ module Mastodon
     end
 
     def repository
-      ENV.fetch('GITHUB_REPOSITORY', 'mastodon/mastodon')
+      ENV.fetch('GITHUB_REPOSITORY', 'nzws/mastodon')
     end
 
     def source_base_url

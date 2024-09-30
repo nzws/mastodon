@@ -1,0 +1,40 @@
+version: 2.1
+
+executors:
+  arm:
+    machine:
+      image: ubuntu-2004:current
+      docker_layer_caching: true
+    resource_class: arm.medium
+
+jobs:
+  build-and-publish-arm-image:
+    executor: arm
+    steps:
+      - checkout
+      - run: docker buildx build -t ghcr.io/nzws/$NAME:$TAG-arm64 .
+      - run: echo $GHCR_TOKEN | docker login ghcr.io -u $GHCR_USER --password-stdin
+      - run: docker push ghcr.io/nzws/$NAME:$TAG-arm64
+
+workflows:
+  version: 2
+
+  don-nzws-me-build:
+    jobs:
+      - build-and-publish-arm-image:
+          filters:
+            branches:
+              only: don.nzws.me
+          pre-steps:
+            - run: echo 'export NAME=don.nzws.me' >> "$BASH_ENV"
+            - run: echo 'export TAG=production' >> "$BASH_ENV"
+
+  neo-knzk-me-build:
+    jobs:
+      - build-and-publish-arm-image:
+          filters:
+            branches:
+              only: neo.knzk.me
+          pre-steps:
+            - run: echo 'export NAME=neo.knzk.me' >> "$BASH_ENV"
+            - run: echo 'export TAG=production' >> "$BASH_ENV"

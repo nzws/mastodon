@@ -260,6 +260,10 @@ class StatusActionBar extends ImmutablePureComponent {
 
     if (publicStatus && (signedIn || !isRemote)) {
       menu.push({ text: intl.formatMessage(messages.embed), action: this.handleEmbed });
+
+      if ('share' in navigator) {
+        menu.push({ text: intl.formatMessage(messages.share), action: this.handleShareClick });
+      }
     }
 
     if (signedIn) {

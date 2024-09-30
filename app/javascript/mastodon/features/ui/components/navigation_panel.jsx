@@ -30,6 +30,9 @@ const messages = defineMessages({
   followsAndFollowers: { id: 'navigation_bar.follows_and_followers', defaultMessage: 'Follows and followers' },
   about: { id: 'navigation_bar.about', defaultMessage: 'About' },
   search: { id: 'navigation_bar.search', defaultMessage: 'Search' },
+  gettingStarted: { id: 'getting_started.heading', defaultMessage: 'Getting started' },
+  publish: { id: 'compose_form.publish', defaultMessage: 'Publish' },
+  signIn: { id: 'sign_in_banner.sign_in', defaultMessage: 'Sign in' },
   advancedInterface: { id: 'navigation_bar.advanced_interface', defaultMessage: 'Open in advanced web interface' },
   openedInClassicInterface: { id: 'navigation_bar.opened_in_classic_interface', defaultMessage: 'Posts, accounts, and other specific pages are opened by default in the classic web interface.' },
 });
@@ -112,15 +115,28 @@ class NavigationPanel extends Component {
             <ListPanel />
 
             <hr />
-
+            {/*
             <ColumnLink transparent href='/settings/preferences' icon='cog' text={intl.formatMessage(messages.preferences)} />
+            */}
           </>
         )}
 
-        <div className='navigation-panel__legal'>
-          <hr />
-          <ColumnLink transparent to='/about' icon='ellipsis-h' text={intl.formatMessage(messages.about)} />
-        </div>
+        {!signedIn && (
+          <div className='navigation-panel__legal'>
+            <hr />
+            <ColumnLink transparent to='/about' icon='ellipsis-h' text={intl.formatMessage(messages.about)} />
+
+            <ColumnLink transparent href='/auth/sign_in' icon='sign-in' text={intl.formatMessage(messages.signIn)} />
+          </div>
+        )}
+
+        {signedIn && (
+          <>
+            <ColumnLink transparent to='/getting-started' icon='bars' text={intl.formatMessage(messages.gettingStarted)} />
+
+            <ColumnLink transparent to='/publish' icon='pencil' text={intl.formatMessage(messages.publish)} />
+          </>
+        )}
 
         <NavigationPortal />
       </div>

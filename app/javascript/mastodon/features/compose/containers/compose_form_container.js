@@ -9,6 +9,7 @@ import {
   changeComposeSpoilerText,
   insertEmojiCompose,
   uploadCompose,
+  changeComposeVisibility,
 } from '../../../actions/compose';
 import ComposeForm from '../components/compose_form';
 
@@ -62,6 +63,10 @@ const mapDispatchToProps = (dispatch) => ({
 
   onPickEmoji (position, data, needsSpace) {
     dispatch(insertEmojiCompose(position, data, needsSpace));
+  },
+
+  onChangeVisibility(value) {
+    dispatch(changeComposeVisibility(value));
   },
 
 });

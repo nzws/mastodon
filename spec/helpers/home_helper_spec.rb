@@ -63,7 +63,7 @@ RSpec.describe HomeHelper do
       let(:count) { 10 }
 
       it 'returns the correct string' do
-        expect(helper.obscured_counter(count)).to eq '1+'
+        expect(helper.obscured_counter(count)).to eq '10'
       end
     end
   end

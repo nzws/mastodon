@@ -44,3 +44,6 @@
     .logo-resources{ 'tabindex' => '-1', 'inert' => true, 'aria-hidden' => true }
       = render_symbol :icon
       = render_symbol :wordmark
+
+    - if cloudflare_web_analytics_token?
+      %script{ src: "https://static.cloudflareinsights.com/beacon.min.js", 'data-cf-beacon': Oj.dump({ token: cloudflare_web_analytics_token }) }

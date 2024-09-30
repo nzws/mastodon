@@ -37,14 +37,24 @@ class ManifestSerializer < ActiveModel::Serializer
   end
 
   def icons
-    ICON_SIZES.map do |size|
+    android = ICON_SIZES.map do |size|
       {
         src: full_pack_url("media/icons/android-chrome-#{size}x#{size}.png"),
         sizes: "#{size}x#{size}",
         type: 'image/png',
-        purpose: 'any maskable',
       }
     end
+
+    maskable = ICON_SIZES.map do |size|
+      {
+        src: full_pack_url("media/icons/maskable-icon-#{size}x#{size}.png"),
+        sizes: "#{size}x#{size}",
+        type: 'image/png',
+        purpose: 'maskable',
+      }
+    end
+
+    android + maskable
   end
 
   def theme_color
@@ -52,7 +62,7 @@ class ManifestSerializer < ActiveModel::Serializer
   end
 
   def background_color
-    '#191b22'
+    '#1e1615'
   end
 
   def display

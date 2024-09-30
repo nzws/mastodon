@@ -1270,10 +1270,11 @@ body > [data-popper-placement] {
     color: $dark-text-color;
   }
 
-  > span {
+  > span:not(.notification__relative_time) {
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-right: 5px;
   }
 }
 
@@ -1755,10 +1756,15 @@ a.account__display-name {
     color: $highlight-text-color;
   }
 
-  > span {
-    display: inline;
+  > span > span:not(.notification__relative_time) {
+    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-right: 5px;
+  }
+
+  > span {
+    width: 100%;
   }
 }
 
@@ -2447,7 +2453,7 @@ $ui-header-height: 55px;
   }
 
   .columns-area__panels {
-    min-height: calc(100vh - $ui-header-height);
+    // min-height: calc(100vh - $ui-header-height);
   }
 
   .columns-area__panels__pane--navigational {
@@ -2477,7 +2483,8 @@ $ui-header-height: 55px;
   }
 
   .layout-single-column .ui__header {
-    display: flex;
+    // nzws fix: Mastodon ロゴのついたヘッダーを消す
+    // display: flex;
     background: $ui-base-color;
     border-bottom: 1px solid lighten($ui-base-color, 8%);
   }
@@ -7433,7 +7440,9 @@ noscript {
     .avatar {
       display: block;
       flex: 0 0 auto;
-      width: 94px;
+
+      // width: 94px;
+      width: 100px;
 
       .account__avatar {
         background: darken($ui-base-color, 8%);
@@ -7501,7 +7510,8 @@ noscript {
         color: $primary-text-color;
         font-weight: 700;
         overflow: hidden;
-        white-space: nowrap;
+
+        // white-space: nowrap;
         text-overflow: ellipsis;
 
         small {

@@ -38,6 +38,11 @@ const messages = defineMessages({
   saveChanges: { id: 'compose_form.save_changes', defaultMessage: 'Save changes' },
 });
 
+const secondaryVisibilities = [
+  { value: 'private', icon: 'lock' },
+  { value: 'unlisted', icon: 'unlock' },
+];
+
 class ComposeForm extends ImmutablePureComponent {
 
   static contextTypes = {
@@ -70,6 +75,7 @@ class ComposeForm extends ImmutablePureComponent {
     anyMedia: PropTypes.bool,
     isInReply: PropTypes.bool,
     singleColumn: PropTypes.bool,
+    onChangeVisibility: PropTypes.func.isRequired,
     lang: PropTypes.string,
   };
 
@@ -119,6 +125,13 @@ class ComposeForm extends ImmutablePureComponent {
     if (e) {
       e.preventDefault();
     }
+  };
+
+  handleSecondarySubmit = e => {
+    const privacy = e.currentTarget.parentElement.dataset.privacy;
+
+    this.props.onChangeVisibility(privacy);
+    this.handleSubmit();
   };
 
   onSuggestionsClearRequested = () => {
@@ -303,6 +316,14 @@ class ComposeForm extends ImmutablePureComponent {
         </div>
 
         <div className='compose-form__publish'>
+          {secondaryVisibilities.map(privacy => (
+            <div className='compose-form__publish-button-wrapper' data-privacy={privacy.value} style={{ marginRight: '10px' }} key={privacy.value}>
+              <Button onClick={this.handleSecondarySubmit} disabled={!this.canSubmit()} block>
+                <Icon id={privacy.icon} />
+              </Button>
+            </div>
+          ))}
+
           <div className='compose-form__publish-button-wrapper'>
             <Button
               type='submit'
