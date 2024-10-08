@@ -24,6 +24,7 @@ import StatusContainer from 'mastodon/containers/status_container';
 import { me } from 'mastodon/initial_state';
 import { WithRouterPropTypes } from 'mastodon/utils/react_router';
 
+import { RelativeTimestamp } from '../../../components/relative_timestamp';
 import FollowRequestContainer from '../containers/follow_request_container';
 
 import { ModerationWarning } from './moderation_warning';
@@ -143,6 +144,10 @@ class Notification extends ImmutablePureComponent {
             <Icon id='user-plus' icon={PersonAddIcon} />
 
             <span title={notification.get('created_at')}>
+              <span className='notification__relative_time'>
+                <RelativeTimestamp timestamp={notification.get('created_at')} />
+              </span>
+
               <FormattedMessage id='notification.follow' defaultMessage='{name} followed you' values={{ name: link }} />
             </span>
           </div>
@@ -163,6 +168,10 @@ class Notification extends ImmutablePureComponent {
             <Icon id='user' icon={PersonIcon} />
 
             <span title={notification.get('created_at')}>
+              <span className='notification__relative_time'>
+                <RelativeTimestamp timestamp={notification.get('created_at')} />
+              </span>
+
               <FormattedMessage id='notification.follow_request' defaultMessage='{name} has requested to follow you' values={{ name: link }} />
             </span>
           </div>
@@ -201,6 +210,10 @@ class Notification extends ImmutablePureComponent {
             <Icon id='star' icon={StarIcon} className='star-icon' />
 
             <span title={notification.get('created_at')}>
+              <span className='notification__relative_time'>
+                <RelativeTimestamp timestamp={notification.get('created_at')} />
+              </span>
+
               <FormattedMessage id='notification.favourite' defaultMessage='{name} favorited your post' values={{ name: link }} />
             </span>
           </div>
@@ -231,6 +244,10 @@ class Notification extends ImmutablePureComponent {
             <Icon id='retweet' icon={RepeatIcon} />
 
             <span title={notification.get('created_at')}>
+              <span className='notification__relative_time'>
+                <RelativeTimestamp timestamp={notification.get('created_at')} />
+              </span>
+
               <FormattedMessage id='notification.reblog' defaultMessage='{name} boosted your post' values={{ name: link }} />
             </span>
           </div>
@@ -300,6 +317,10 @@ class Notification extends ImmutablePureComponent {
             <Icon id='pencil' icon={EditIcon} />
 
             <span title={notification.get('created_at')}>
+              <span className='notification__relative_time'>
+                <RelativeTimestamp timestamp={notification.get('created_at')} />
+              </span>
+
               <FormattedMessage id='notification.update' defaultMessage='{name} edited a post' values={{ name: link }} />
             </span>
           </div>
@@ -337,6 +358,10 @@ class Notification extends ImmutablePureComponent {
             <Icon id='tasks' icon={InsertChartIcon} />
 
             <span title={notification.get('created_at')}>
+              <span className='notification__relative_time'>
+                <RelativeTimestamp timestamp={notification.get('created_at')} />
+              </span>
+
               {ownPoll ? (
                 <FormattedMessage id='notification.own_poll' defaultMessage='Your poll has ended' />
               ) : (
@@ -416,6 +441,10 @@ class Notification extends ImmutablePureComponent {
             <Icon id='user-plus' icon={PersonAddIcon} />
 
             <span title={notification.get('created_at')}>
+              <span className='notification__relative_time'>
+                <RelativeTimestamp timestamp={notification.get('created_at')} />
+              </span>
+
               <FormattedMessage id='notification.admin.sign_up' defaultMessage='{name} signed up' values={{ name: link }} />
             </span>
           </div>
@@ -444,6 +473,10 @@ class Notification extends ImmutablePureComponent {
             <Icon id='flag' icon={FlagIcon} />
 
             <span title={notification.get('created_at')}>
+              <span className='notification__relative_time'>
+                <RelativeTimestamp timestamp={notification.get('created_at')} />
+              </span>
+
               <FormattedMessage id='notification.admin.report' defaultMessage='{name} reported {target}' values={{ name: link, target: targetLink }} />
             </span>
           </div>

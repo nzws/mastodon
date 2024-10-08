@@ -10,6 +10,10 @@ import ImmutablePureComponent from 'react-immutable-pure-component';
 
 import { length } from 'stringz';
 
+import LockIcon from '@/material-icons/400-24px/lock.svg?react';
+import QuietTimeIcon from '@/material-icons/400-24px/quiet_time.svg?react';
+import { Icon } from 'mastodon/components/icon';
+
 import AutosuggestInput from '../../../components/autosuggest_input';
 import AutosuggestTextarea from '../../../components/autosuggest_textarea';
 import { Button } from '../../../components/button';
@@ -29,6 +33,8 @@ import { PollForm } from "./poll_form";
 import { ReplyIndicator } from './reply_indicator';
 import { UploadForm } from './upload_form';
 
+
+
 const allowedAroundShortCode = '><\u0085\u0020\u00a0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029\u0009\u000a\u000b\u000c\u000d';
 
 const messages = defineMessages({
@@ -38,6 +44,11 @@ const messages = defineMessages({
   saveChanges: { id: 'compose_form.save_changes', defaultMessage: 'Update' },
   reply: { id: 'compose_form.reply', defaultMessage: 'Reply' },
 });
+
+const secondaryVisibilities = [
+  { value: 'private', icon: 'lock', iconComponent: LockIcon },
+  { value: 'unlisted', icon: 'unlock', iconComponent: QuietTimeIcon },
+];
 
 class ComposeForm extends ImmutablePureComponent {
   static propTypes = {
@@ -67,6 +78,7 @@ class ComposeForm extends ImmutablePureComponent {
     anyMedia: PropTypes.bool,
     isInReply: PropTypes.bool,
     singleColumn: PropTypes.bool,
+    onChangeVisibility: PropTypes.func.isRequired,
     lang: PropTypes.string,
     maxChars: PropTypes.number,
   };
@@ -122,6 +134,13 @@ class ComposeForm extends ImmutablePureComponent {
     if (e) {
       e.preventDefault();
     }
+  };
+
+  handleSecondarySubmit = e => {
+    const privacy = e.target.dataset.privacy;
+
+    this.props.onChangeVisibility(privacy);
+    this.handleSubmit();
   };
 
   onSuggestionsClearRequested = () => {
@@ -304,6 +323,23 @@ class ComposeForm extends ImmutablePureComponent {
                   text={intl.formatMessage(this.props.isEditing ? messages.saveChanges : (this.props.isInReply ? messages.reply : messages.publish))}
                   disabled={!this.canSubmit()}
                 />
+              </div>
+            </div>
+
+            <div className='compose-form__actions' style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: '8px',
+              }}>
+                {secondaryVisibilities.map(privacy => (
+                  <Button onClick={this.handleSecondarySubmit} disabled={!this.canSubmit()} data-privacy={privacy.value} key={privacy.value}>
+                    <Icon id={privacy.icon} icon={privacy.iconComponent} />
+                  </Button>
+                ))}
               </div>
             </div>
           </div>

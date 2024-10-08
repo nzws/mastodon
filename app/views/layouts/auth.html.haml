@@ -1,5 +1,18 @@
 - content_for :header_tags do
   = javascript_pack_tag 'public', crossorigin: 'anonymous'
+  %style{ nonce: content_security_policy_nonce }
+    :plain
+      html {
+        height: 100%;
+        background-image: url("#{thumbnail_url}");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+      }
+
+      body {
+        background: transparent !important;
+      }
 
 - content_for :content do
   .container-alt

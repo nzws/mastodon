@@ -23,7 +23,7 @@ class TagFeed < PublicFeed
   # @param [Integer] min_id
   # @return [Array<Status>]
   def get(limit, max_id = nil, since_id = nil, min_id = nil)
-    scope = public_scope
+    scope = distributable_scope
 
     scope.merge!(tagged_with_any_scope)
     scope.merge!(tagged_with_all_scope)

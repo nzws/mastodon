@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import AlternateEmailIcon from '@/material-icons/400-24px/alternate_email.svg?react';
 import BookmarksActiveIcon from '@/material-icons/400-24px/bookmarks-fill.svg?react';
 import BookmarksIcon from '@/material-icons/400-24px/bookmarks.svg?react';
+import EditIcon from '@/material-icons/400-24px/edit.svg?react';
 import ExploreActiveIcon from '@/material-icons/400-24px/explore-fill.svg?react';
 import ExploreIcon from '@/material-icons/400-24px/explore.svg?react';
 import ModerationIcon from '@/material-icons/400-24px/gavel.svg?react';
@@ -17,6 +18,7 @@ import HomeActiveIcon from '@/material-icons/400-24px/home-fill.svg?react';
 import HomeIcon from '@/material-icons/400-24px/home.svg?react';
 import ListAltActiveIcon from '@/material-icons/400-24px/list_alt-fill.svg?react';
 import ListAltIcon from '@/material-icons/400-24px/list_alt.svg?react';
+import LoginIcon from '@/material-icons/400-24px/login.svg?react';
 import AdministrationIcon from '@/material-icons/400-24px/manufacturing.svg?react';
 import MoreHorizIcon from '@/material-icons/400-24px/more_horiz.svg?react';
 import NotificationsActiveIcon from '@/material-icons/400-24px/notifications-fill.svg?react';
@@ -25,7 +27,7 @@ import PersonAddActiveIcon from '@/material-icons/400-24px/person_add-fill.svg?r
 import PersonAddIcon from '@/material-icons/400-24px/person_add.svg?react';
 import PublicIcon from '@/material-icons/400-24px/public.svg?react';
 import SearchIcon from '@/material-icons/400-24px/search.svg?react';
-import SettingsIcon from '@/material-icons/400-24px/settings.svg?react';
+// import SettingsIcon from '@/material-icons/400-24px/settings.svg?react';
 import StarActiveIcon from '@/material-icons/400-24px/star-fill.svg?react';
 import StarIcon from '@/material-icons/400-24px/star.svg?react';
 import { fetchFollowRequests } from 'mastodon/actions/accounts';
@@ -43,6 +45,7 @@ import DisabledAccountBanner from './disabled_account_banner';
 import { ListPanel } from './list_panel';
 import SignInBanner from './sign_in_banner';
 
+
 const messages = defineMessages({
   home: { id: 'tabs_bar.home', defaultMessage: 'Home' },
   notifications: { id: 'tabs_bar.notifications', defaultMessage: 'Notifications' },
@@ -58,6 +61,9 @@ const messages = defineMessages({
   followsAndFollowers: { id: 'navigation_bar.follows_and_followers', defaultMessage: 'Follows and followers' },
   about: { id: 'navigation_bar.about', defaultMessage: 'About' },
   search: { id: 'navigation_bar.search', defaultMessage: 'Search' },
+  gettingStarted: { id: 'getting_started.heading', defaultMessage: 'Getting started' },
+  publish: { id: 'compose_form.publish', defaultMessage: 'Publish' },
+  signIn: { id: 'sign_in_banner.sign_in', defaultMessage: 'Sign in' },
   advancedInterface: { id: 'navigation_bar.advanced_interface', defaultMessage: 'Open in advanced web interface' },
   openedInClassicInterface: { id: 'navigation_bar.opened_in_classic_interface', defaultMessage: 'Posts, accounts, and other specific pages are opened by default in the classic web interface.' },
   followRequests: { id: 'navigation_bar.follow_requests', defaultMessage: 'Follow requests' },
@@ -181,17 +187,25 @@ class NavigationPanel extends Component {
 
               <hr />
 
+              {/*
               <ColumnLink transparent href='/settings/preferences' icon='cog' iconComponent={SettingsIcon} text={intl.formatMessage(messages.preferences)} />
+            */}
 
               {canManageReports(permissions) && <ColumnLink optional transparent href='/admin/reports' icon='flag' iconComponent={ModerationIcon} text={intl.formatMessage(messages.moderation)} />}
               {canViewAdminDashboard(permissions) && <ColumnLink optional transparent href='/admin/dashboard' icon='tachometer' iconComponent={AdministrationIcon} text={intl.formatMessage(messages.administration)} />}
+
+              <ColumnLink transparent to='/getting-started' icon='ellipsis-h' iconComponent={MoreHorizIcon} text={intl.formatMessage(messages.  gettingStarted)} />
+              <ColumnLink transparent to='/publish' icon='edit' iconComponent={EditIcon} text={intl.formatMessage(messages.publish)} />
             </>
           )}
 
-          <div className='navigation-panel__legal'>
-            <hr />
-            <ColumnLink transparent to='/about' icon='ellipsis-h' iconComponent={MoreHorizIcon} text={intl.formatMessage(messages.about)} />
-          </div>
+          {!signedIn && (
+            <div className='navigation-panel__legal'>
+              <hr />
+              <ColumnLink transparent to='/about' icon='ellipsis-h' iconComponent={MoreHorizIcon} text={intl.formatMessage(messages.about)} />
+              <ColumnLink transparent href='/auth/sign_in' icon='login' iconComponent={LoginIcon} text={intl.formatMessage(messages.signIn)} />
+            </div>
+          )}
         </div>
 
         <div className='flex-spacer' />

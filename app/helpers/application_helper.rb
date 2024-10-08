@@ -244,6 +244,14 @@ module ApplicationHelper
     tag.input(type: :text, maxlength: 999, spellcheck: false, readonly: true, **options)
   end
 
+  def cloudflare_web_analytics_token
+    ENV.fetch('CLOUDFLARE_WEB_ANALYTICS_TOKEN', nil)
+  end
+
+  def cloudflare_web_analytics_token?
+    cloudflare_web_analytics_token.present?
+  end
+
   private
 
   def storage_host_var

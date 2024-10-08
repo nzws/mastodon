@@ -1,0 +1,81 @@
+// TLカラム
+.column {
+  > .scrollable {
+    background: rgba($ui-base-color, 0.8);
+  }
+
+  .load-more:hover {
+    background: rgba(lighten($ui-base-color, 2%), 0.8);
+  }
+
+  &-header {
+    background: rgba(lighten($ui-base-color, 4%), 0.8);
+
+    &__button {
+      background: transparent;
+    }
+  }
+}
+
+body {
+  &::-webkit-scrollbar {
+    &-track,
+    &-track:hover {
+      background: $ui-base-color;
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  &-thumb,
+  &-thumb:active {
+    background: lighten($ui-base-color, 8%);
+  }
+
+  &-thumb:hover {
+    background: lighten($ui-base-color, 10%);
+  }
+}
+
+// トゥート欄
+.drawer {
+  &__header {
+    background: rgba(lighten($ui-base-color, 13%), 0.8);
+  }
+
+  &__inner {
+    background: rgba(lighten($ui-base-color, 13%), 0.8);
+
+    &__mastodon {
+      background: transparent
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 234.80078 31.757813" width="234.80078" height="31.757812"><path d="M19.599609 0c-1.05 0-2.10039.375-2.90039 1.125L0 16.925781v14.832031h234.80078V17.025391l-16.5-15.900391c-1.6-1.5-4.20078-1.5-5.80078 0l-13.80078 13.099609c-1.6 1.5-4.19883 1.5-5.79883 0L179.09961 1.125c-1.6-1.5-4.19883-1.5-5.79883 0L159.5 14.224609c-1.6 1.5-4.20078 1.5-5.80078 0L139.90039 1.125c-1.6-1.5-4.20078-1.5-5.80078 0l-13.79883 13.099609c-1.6 1.5-4.20078 1.5-5.80078 0L100.69922 1.125c-1.600001-1.5-4.198829-1.5-5.798829 0l-13.59961 13.099609c-1.6 1.5-4.200781 1.5-5.800781 0L61.699219 1.125c-1.6-1.5-4.198828-1.5-5.798828 0L42.099609 14.224609c-1.6 1.5-4.198828 1.5-5.798828 0L22.5 1.125C21.7.375 20.649609 0 19.599609 0z" fill="#{hex-color($ui-base-color)}"/></svg>')
+        no-repeat bottom / 100% auto;
+    }
+  }
+}
+
+// 全ページの背景に画像追加
+body,
+body.app-body,
+.ui {
+  background: url('../images/nzws_theme_background.png');
+  background-attachment: fixed;
+}
+
+html {
+  background-color: $classic-base-color;
+}
+
+// エラー
+.error-column {
+  background: rgba($ui-base-color, 0.6);
+}
+
+// empty
+.empty-column-indicator {
+  background: transparent;
+}
+
+.tabs-bar__wrapper {
+  background: transparent;
+}

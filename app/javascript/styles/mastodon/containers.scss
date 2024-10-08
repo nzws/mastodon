@@ -1,6 +1,11 @@
 .container-alt {
-  width: 700px;
+  width: 600px;
   margin: 0 auto;
+  background: $ui-base-color;
+  border-radius: 8px;
+  margin-top: 50px;
+  padding-top: 1px;
+  box-shadow: 0 8px 10px 7px rgba(0, 0, 0, 40%);
 
   @media screen and (width <= 740px) {
     width: 100%;

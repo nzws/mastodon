@@ -45,7 +45,7 @@ module HomeHelper
     elsif count == 1
       '1'
     else
-      '1+'
+      count.to_s
     end
   end
 
