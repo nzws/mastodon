@@ -45,11 +45,6 @@ const messages = defineMessages({
   reply: { id: 'compose_form.reply', defaultMessage: 'Reply' },
 });
 
-const secondaryVisibilities = [
-  { value: 'private', icon: 'lock', iconComponent: LockIcon },
-  { value: 'unlisted', icon: 'unlock', iconComponent: QuietTimeIcon },
-];
-
 class ComposeForm extends ImmutablePureComponent {
   static propTypes = {
     intl: PropTypes.object.isRequired,
@@ -136,12 +131,17 @@ class ComposeForm extends ImmutablePureComponent {
     }
   };
 
-  handleSecondarySubmit = e => {
-    const privacy = e.target.dataset.privacy;
-
-    this.props.onChangeVisibility(privacy);
-    this.handleSubmit();
+  handleSecondarySubmit = (privacy) => {
+    return (e) => {
+      this.props.onChangeVisibility(privacy);
+      this.handleSubmit(e);
+    };
   };
+
+  secondaryVisibilities = [
+    { value: 'private', icon: 'lock', iconComponent: LockIcon, onClick: this.handleSecondarySubmit('private') },
+    { value: 'unlisted', icon: 'quiet_time', iconComponent: QuietTimeIcon, onClick: this.handleSecondarySubmit('unlisted') },
+  ];
 
   onSuggestionsClearRequested = () => {
     this.props.onClearSuggestions();
@@ -335,8 +335,8 @@ class ComposeForm extends ImmutablePureComponent {
                 justifyContent: 'flex-end',
                 gap: '8px',
               }}>
-                {secondaryVisibilities.map(privacy => (
-                  <Button onClick={this.handleSecondarySubmit} disabled={!this.canSubmit()} data-privacy={privacy.value} key={privacy.value}>
+                {this.secondaryVisibilities.map(privacy => (
+                  <Button onClick={privacy.onClick} disabled={!this.canSubmit()} data-privacy={privacy.value} key={privacy.value}>
                     <Icon id={privacy.icon} icon={privacy.iconComponent} />
                   </Button>
                 ))}

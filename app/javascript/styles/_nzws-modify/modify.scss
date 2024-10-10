@@ -1,3 +1,27 @@
 .tabs-bar__wrapper {
   top: 0;
 }
+
+div.notification-group__main .notification-group__main__header time {
+  display: block;
+}
+
+.notification-group__main__header__label {
+  justify-content: space-between;
+}
+
+.notification-group {
+  flex-direction: column;
+  position: relative;
+
+  &__main {
+    width: 100%;
+  }
+
+  &__icon {
+    position: absolute;
+    z-index: 2;
+    top: 25px;
+    left: 6px;
+  }
+}
