@@ -16,8 +16,8 @@ if ENV['CLOUDFLARE_WEB_ANALYTICS_TOKEN'].present?
   cf_web_analytics_script = 'https://static.cloudflareinsights.com'
   cf_web_analytics_connect = 'https://cloudflareinsights.com'
 else
-  cf_web_analytics_script = ''
-  cf_web_analytics_connect = ''
+  cf_web_analytics_script = nil
+  cf_web_analytics_connect = nil
 end
 
 Rails.application.config.content_security_policy do |p|
@@ -47,9 +47,12 @@ Rails.application.config.content_security_policy do |p|
     p.script_src  :self, :unsafe_inline, :unsafe_eval, assets_host
     p.frame_src   :self, :https, :http
   else
-    p.connect_src :self, :data, :blob, *media_hosts, Rails.configuration.x.streaming_api_base_url, cf_web_analytics_connect
-    p.script_src  :self, assets_host, "'wasm-unsafe-eval'", cf_web_analytics_script
+    p.connect_src :self, :data, :blob, *media_hosts, Rails.configuration.x.streaming_api_base_url
+    p.script_src  :self, assets_host, "'wasm-unsafe-eval'"
     p.frame_src   :self, :https
+
+    p.connect_src :self, :data, :blob, *media_hosts, Rails.configuration.x.streaming_api_base_url, cf_web_analytics_connect if cf_web_analytics_connect
+    p.script_src :self, assets_host, "'wasm-unsafe-eval'", cf_web_analytics_script if cf_web_analytics_script
   end
 end
 
