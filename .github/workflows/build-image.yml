@@ -9,14 +9,12 @@ permissions:
   contents: read
   packages: write
 
-env:
-  REGISTRY_IMAGE: ghcr.io/nzws/mastodon
-
 jobs:
   build-image:
     strategy:
       matrix:
         platforms: [linux/amd64, linux/arm64]
+        image: [mastodon, mastodon-streaming]
 
     runs-on: ${{ matrix.platforms == 'linux/arm64' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
 
@@ -35,12 +33,13 @@ jobs:
 
       - uses: docker/build-push-action@v6
         with:
+          file: ${{ matrix.image == 'mastodon' && 'Dockerfile' || 'streaming/Dockerfile' }}
           context: .
           build-args: |
             MASTODON_VERSION_METADATA=${{ github.sha }}
           platforms: ${{ matrix.platforms }}
-          provenance: false
+          push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            ${{ env.REGISTRY_IMAGE }}:latest-${{ matrix.platforms == 'linux/arm64' && 'linux-arm64' || 'linux-amd64' }}
+            ghcr.io/nzws/${{ matrix.image }}:latest-${{ matrix.platforms == 'linux/arm64' && 'linux-arm64' || 'linux-amd64' }}
