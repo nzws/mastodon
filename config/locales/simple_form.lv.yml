@@ -10,7 +10,7 @@ lv:
         indexable: Tavi publiskie ieraksti var tikt parādīti Mastodon meklēšanas iznākumā. Cilvēki, kuri ir mijiedarbojušies ar Taviem ierakstiem, var tos meklēt neatkarīgi no tā.
         note: 'Tu vari @minēt citus cilvēkus vai #mirkļbirkas.'
         show_collections: Cilvēki varēs pārlūkot Tavus sekotājus un sekojamos. Cilvēki, kuriem Tu seko, redzēs, ka Tu seko viņiem neatkarīgi no tā.
-        unlocked: Cilvēki varēs sekot jums, neprasot apstiprinājumu. Noņemiet atzīmi no izvēles rūtiņas, ja vēlaties skatīt sekošanas pieprasījumus un izvēlēties, pieņemt vai noraidīt jaunos abonentus.
+        unlocked: Cilvēki varēs Tev sekot bez apstiprinājuma pieprasīšanas. Jānoņem atzīme, ja vēlies pārskatīt sekošanas pieprasījumus un izvēlēties, vai apstiprināt vai noraidīt jaunus sekotājus.
       account_alias:
         acct: Norādi konta lietotājvārdu@domēnu, no kura vēlies pārvākties
       account_migration:
@@ -25,8 +25,8 @@ lv:
         type_html: Izvēlies, ko darīt ar <strong>%{acct}</strong>
         types:
           disable: Neļauj lietotājam izmantot savu kontu, bet neizdzēs vai neslēp tā saturu.
-          none: Izmanto šo, lai nosūtītu lietotājam brīdinājumu, neradot nekādas citas darbības.
-          sensitive: Piespiest visus šī lietotāja multivides pielikumus atzīmēt kā sensitīvus.
+          none: Šis ir izmantojams, lai nosūtītu lietotājam brīdinājumu bez jebkādu citu darbību izraisīšanas.
+          sensitive: Visus šī lietotāja informācijas nesēju pielikumus uzspiesti atzīmēt kā jūtīgus.
           silence: Neļaut lietotājam veikt ierakstus ar publisku redzamību, paslēpt viņa ierakstus un paziņojumus no cilvēkiem, kas tam neseko. Tiek aizvērti visi ziņojumi par šo kontu.
           suspend: Novērs jebkādu mijiedarbību no šī konta vai uz to un dzēs tā saturu. Atgriežams 30 dienu laikā. Tiek aizvērti visi šī konta pārskati.
         warning_preset_id: Neobligāts. Tu joprojām vari pievienot pielāgotu tekstu sākotnējās iestatīšanas beigās
@@ -39,16 +39,16 @@ lv:
       appeal:
         text: Brīdinājumu var pārsūdzēt tikai vienu reizi
       defaults:
-        autofollow: Cilvēki, kuri reģistrējas, izmantojot uzaicinājumu, automātiski sekos tev
+        autofollow: Cilvēki, kuri reģistrēsies ar uzaicinājumu, automātiski sekos Tev
         avatar: WEBP, PNG, GIF vai JPG. Ne vairāk kā %{size}. Tiks samazināts līdz %{dimensions}px
         bot: Paziņo citiem, ka kontā galvenokārt tiek veiktas automatizētas darbības un tas var netikt uzraudzīts
         context: Viens vai vairāki konteksti, kur jāpiemēro filtrs
         current_password: Drošības nolūkos, lūdzu, ievadi pašreizējā konta paroli
         current_username: Lai apstiprinātu, lūdzu, ievadi pašreizējā konta paroli
-        digest: Tiek nosūtīts tikai pēc ilgstošas bezdarbības un tikai tad, ja savas prombūtnes laikā esi saņēmis jebkādas personīgas ziņas
-        email: Tev tiks nosūtīts apstiprinājuma e-pasts
+        digest: Tiek nosūtīts tikai pēc ilgstošas bezdarbības un tikai tad, ja savas prombūtnes laikā saņēmi jebkādas personīgas ziņas
+        email: Tev tiks nosūtīts apstiprinājuma e-pasta ziņojums
         header: WEBP, PNG, GIF vai JPG. Ne vairāk kā %{size}. Tiks samazināts līdz %{dimensions}px
-        inbox_url: Nokopē URL no tā releja sākumlapas, kuru vēlies izmantot
+        inbox_url: Releja, kuru vēlies izmantot, sākumlapas URL jāievieto starpliktuvē
         irreversible: Filtrētās ziņas neatgriezeniski pazudīs, pat ja filtrs vēlāk tiks noņemts
         locale: Lietotāja saskarnes, e-pasta ziņojumu un push paziņojumu valoda
         password: Izmanto vismaz 8 rakstzīmes
@@ -56,8 +56,8 @@ lv:
         scopes: Kuriem API lietotnei būs ļauts piekļūt. Ja atlasa augstākā līmeņa tvērumu, nav nepieciešamas atlasīt atsevišķus.
         setting_aggregate_reblogs: Nerādīt jaunus izcēlumus ziņām, kas nesen tika palielinātas (ietekmē tikai nesen saņemtos palielinājumus)
         setting_always_send_emails: Parasti e-pasta paziņojumi netiek sūtīti, kad aktīvi izmantojat Mastodon
-        setting_default_sensitive: Sensitīva multivide pēc noklusējuma ir paslēpti, un tos var atklāt, noklikšķinot
-        setting_display_media_default: Paslēpt multividi, kas atzīmēta kā sensitīva
+        setting_default_sensitive: Pēc noklusējuma jūtīgi informācijas nesēji ir paslēpti, un tos var atklāt ar klikšķi
+        setting_display_media_default: Paslēpt informācijas nesējus, kas atzīmēti kā jūtīgi
         setting_display_media_hide_all: Vienmēr slēpt multividi
         setting_display_media_show_all: Vienmēr rādīt multividi
         setting_use_blurhash: Pāreju pamatā ir paslēpto uzskatāmo līdzekļu krāsas, bet saturs tiek padarīts neskaidrs
@@ -80,7 +80,7 @@ lv:
         activity_api_enabled: Vietēji publicēto ziņu, aktīvo lietotāju un jauno reģistrāciju skaits nedēļas kopās
         app_icon: WEBP, PNG, GIF vai JPG. Mobilajās ierīcēs aizstāj noklusējuma lietotnes ikonu ar pielāgotu.
         backups_retention_period: Lietotājiem ir iespēja izveidot savu ierakstu arhīvu lejupielādēšanai vēlāk. Kad iestatīta pozitīva vērtība, šie arhīvi tiks automātiski izdzēsti no krātuves pēc norādītā dienu skaita.
-        bootstrap_timeline_accounts: Šie konti tiks piesprausti jauno lietotāju ieteikumu augšdaļā.
+        bootstrap_timeline_accounts: Šie konti tiks piesprausti jauno lietotāju sekošanas ieteikumu augšdaļā.
         closed_registrations_message: Tiek rādīts, kad reģistrēšanās ir slēgta
         content_cache_retention_period: Visi ieraksti no citiem serveriem (tajā skaitā pastiprinājumi un atbildes) tiks izdzēsti pēc norādītā dienu skaita, neņemot vērā vietēja lietotāja mijiedarbību ar šādiem ierakstiem. Tas ietver ierakstus, kurus vietējs lietotājs ir atzīmējis kā grāmatzīmi vai pievienojis izlasē. Tiks zaudēti arī privāti pieminējumi starp lietotājiem no dažādiem serveriem, un tos nebūs iespējams atgūt. Šī iestatījuma izmantošana ir paredzēta īpašam nolūkam paredzētiem serveriem un neatbilst tam, ko sagaida vairums lietotāju, kad pielietots vispārējas izmantošanas serveros.
         custom_css: Vari lietot pielāgotus stilus Mastodon tīmekļa versijā.
@@ -122,7 +122,7 @@ lv:
         hint: Izvēles. Sniedz vairāk informācijas par noteikumu
         text: Jāapraksta nosacījums vai prasība šī servera lietotājiem. Jāmēģina to veidot īsu un vienkāršu
       sessions:
-        otp: 'Ievadi divfaktoru kodu, ko ģenerējusi tava tālruņa lietotne, vai izmanto kādu no atkopšanas kodiem:'
+        otp: 'Jāievada tālruņa lietotnes izveidots divpakāpju kods vai jāizmanto viens no saviem atkopes kodiem:'
         webauthn: Ja tā ir USB atslēga, noteikti ievieto to un, ja nepieciešams, pieskaries tai.
       settings:
         indexable: Tava profila lapa var tikt parādīta Google, Bing un citu meklēšanas dzinēju rezultātos.
@@ -167,7 +167,7 @@ lv:
         types:
           disable: Iesaldēt
           none: Nosūtīt brīdinājumu
-          sensitive: Sensitīvs
+          sensitive: Jūtīgs
           silence: Ierobežot
           suspend: Apturēt
         warning_preset_id: Lietot iepriekš iestatītus brīdinājumus
@@ -201,7 +201,7 @@ lv:
         max_uses: Maksimālais lietojumu skaits
         new_password: Jauna parole
         note: Par sevi
-        otp_attempt: Divfaktoru kods
+        otp_attempt: Divpakāpju kods
         password: Parole
         phrase: Atslēgvārds vai frāze
         setting_advanced_layout: Iespējot paplašināto tīmekļa saskarni
@@ -211,7 +211,7 @@ lv:
         setting_boost_modal: Rādīt apstiprinājuma dialogu pirms izcelšanas
         setting_default_language: Publicēšanas valoda
         setting_default_privacy: Publicēšanas privātums
-        setting_default_sensitive: Atļaut atzīmēt multividi kā sensitīvu
+        setting_default_sensitive: Vienmēr atzīmēt informācijas nesējus kā jūtīgus
         setting_delete_modal: Parādīt apstiprinājuma dialogu pirms ziņas dzēšanas
         setting_disable_hover_cards: Atspējot profila priekšskatījumu pēc kursora novietošanas
         setting_disable_swiping: Atspējot vilkšanas kustības
@@ -293,8 +293,8 @@ lv:
         appeal: Kāds pārsūdz moderatora lēmumu
         digest: Sūtīt kopsavilkumu e-pastus
         favourite: Kāds izcēla tavu ziņu
-        follow: Kāds uzsāka tev sekot
-        follow_request: Kāds vēlas tev sekot
+        follow: Kāds uzsāka Tev sekot
+        follow_request: Kāds vēlas Tev sekot
         mention: Kāds pieminēja tevi
         pending_account: Jāpārskata jaunu kontu
         reblog: Kāds izcēla tavu ierakstu
