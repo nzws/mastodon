@@ -2760,3 +2760,57 @@
     height: calc(100% - 30px);
   }
 }
+
+// Mobile: float the column header pill at the bottom of the screen like the
+// 4.2/4.3 theme did, now sitting above Mastodon's own bottom navigation bar.
+@media (width <= 895px) {
+  #mastodon .tabs-bar__wrapper {
+    position: fixed !important;
+    top: unset !important;
+    bottom: 0;
+    inset-inline: 0;
+    z-index: 3;
+    background: none !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    pointer-events: none;
+  }
+
+  #mastodon .tabs-bar__wrapper #tabs-bar__portal {
+    pointer-events: all;
+  }
+
+  // Open the settings panel (and any extra tabs) above the pill
+  #mastodon .tabs-bar__wrapper .column-header__wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  // Pills without action buttons (e.g. New Post) would end right at the title
+  #mastodon
+    .tabs-bar__wrapper
+    .column-header:has(.column-header__buttons:empty)
+    .column-header__title {
+    padding-inline-end: 20px;
+  }
+
+  // Extra header content (search field, tabs) now floats over the timeline too
+  #mastodon .tabs-bar__wrapper .explore__search-header,
+  #mastodon .tabs-bar__wrapper .account__section-headline {
+    margin: 0 10px 8px;
+    border-radius: var(--radius);
+    background: var(--color-bg-secondary);
+    box-shadow: var(--shadow);
+  }
+
+  // Keep the last entries reachable above the floating pill
+  #mastodon .columns-area__panels__main .column {
+    padding-bottom: 70px;
+  }
+}
+
+@media (width < 760px) {
+  #mastodon .tabs-bar__wrapper {
+    bottom: calc(55px + env(safe-area-inset-bottom));
+  }
+}
