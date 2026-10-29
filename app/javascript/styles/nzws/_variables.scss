@@ -1,0 +1,12 @@
+@use 'sass:color';
+@use 'sass:string';
+
+// Legacy SCSS colors still referenced by the nzws diff stylesheets.
+// Mastodon >= 4.6 themes the UI through CSS tokens instead (see _tokens.scss).
+$classic-base-color: #332624;
+$ui-base-color: $classic-base-color;
+
+// Formerly provided by mastodon/functions, used to embed colors in data URIs
+@function hex-color($color) {
+  @return '%23' + string.unquote(string.slice(color.ie-hex-str($color), 4));
+}

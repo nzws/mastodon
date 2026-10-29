@@ -1,0 +1,67 @@
+@use '../mastodon/tokens/theme/dark';
+@use '../mastodon/tokens/theme/utils';
+
+// nzws palette: warm brown neutrals and a red brand color.
+// Overrides the base palette from mastodon/tokens/theme/_base.scss, so every
+// semantic token (backgrounds, text, borders, brand) picks up these colors.
+html {
+  --color-grey-50: #fbf6f5;
+  --color-grey-100: #f6eeec;
+  --color-grey-200: #e6d6d3;
+  --color-grey-300: #f7b2ad;
+  --color-grey-400: #a8857f;
+  --color-grey-500: #7d5f59;
+  --color-grey-600: #634b46;
+  --color-grey-700: #4f3c38;
+  --color-grey-800: #3d2e2b;
+  --color-grey-900: #281e1c;
+  --color-grey-950: #1e1615;
+  --color-indigo-50: #fff1f0;
+  --color-indigo-100: #ffe0dd;
+  --color-indigo-200: #ffc6c1;
+  --color-indigo-300: #ffa59e;
+  --color-indigo-400: #fb8077;
+  --color-indigo-500: #f86a5f;
+  --color-indigo-600: #f7766c;
+  --color-indigo-700: #f5584c;
+  --color-indigo-800: #d9473b;
+  --color-indigo-900: #5a2420;
+  --color-indigo-950: #3a1a17;
+}
+
+// Pre-4.6 custom properties still referenced by the nzws stylesheets
+html {
+  --background-color: var(--color-bg-primary);
+  --surface-variant-background-color: var(--color-bg-secondary);
+}
+
+// The Mastodon logos ship with a purple gradient baked into the SVGs;
+// tint them with the brand color instead.
+#logo-symbol-wordmark linearGradient stop:first-child,
+#logo-symbol-icon linearGradient stop:first-child {
+  stop-color: var(--color-indigo-600);
+}
+
+#logo-symbol-wordmark linearGradient stop:last-child,
+#logo-symbol-icon linearGradient stop:last-child {
+  stop-color: var(--color-indigo-800);
+}
+
+// Same logo loaded as an <img>; rotate its purple (240°) to the brand red (4°).
+img.logo--icon {
+  filter: hue-rotate(124deg) saturate(1.15);
+}
+
+// The nzws stylesheets hard-code dark surfaces, so the light color scheme
+// would put dark text on dark backgrounds. Always use the dark tokens.
+[data-color-scheme='light'] {
+  color-scheme: dark;
+
+  @include dark.tokens;
+  @include utils.invert-on-dark;
+
+  &[data-contrast='high'],
+  [data-contrast='high'] & {
+    @include dark.contrast-overrides;
+  }
+}
