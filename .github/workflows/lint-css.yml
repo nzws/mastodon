@@ -2,9 +2,6 @@ name: CSS Linting
 on:
   merge_group:
   push:
-    branches:
-      - 'main'
-      - 'stable-*'
     paths:
       - 'package.json'
       - 'yarn.lock'

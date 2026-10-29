@@ -9,6 +9,7 @@ import {
   changeComposeSpoilerText,
   insertEmojiCompose,
   uploadCompose,
+  changeComposeVisibility,
 } from 'mastodon/actions/compose';
 import { openModal } from 'mastodon/actions/modal';
 
@@ -77,6 +78,10 @@ const mapDispatchToProps = (dispatch, props) => ({
 
   onPickEmoji (position, data, needsSpace) {
     dispatch(insertEmojiCompose(position, data, needsSpace));
+  },
+
+  onChangeVisibility(value) {
+    dispatch(changeComposeVisibility(value));
   },
 
 });

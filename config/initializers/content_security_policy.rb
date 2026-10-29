@@ -12,6 +12,14 @@ policy = ContentSecurityPolicy.new
 assets_host = policy.assets_host
 media_hosts = policy.media_hosts
 
+if ENV['CLOUDFLARE_WEB_ANALYTICS_TOKEN'].present?
+  cf_web_analytics_script = 'https://static.cloudflareinsights.com'
+  cf_web_analytics_connect = 'https://cloudflareinsights.com'
+else
+  cf_web_analytics_script = nil
+  cf_web_analytics_connect = nil
+end
+
 Rails.application.config.content_security_policy do |p|
   p.base_uri        :none
   p.default_src     :none
@@ -43,6 +51,9 @@ Rails.application.config.content_security_policy do |p|
     p.script_src  :self, assets_host, "'wasm-unsafe-eval'"
     p.frame_src   :self, :https
     p.style_src   :self, assets_host
+
+    p.connect_src :self, :data, :blob, *media_hosts, Rails.configuration.x.streaming_api_base_url, cf_web_analytics_connect if cf_web_analytics_connect
+    p.script_src :self, assets_host, "'wasm-unsafe-eval'", cf_web_analytics_script if cf_web_analytics_script
   end
 end
 

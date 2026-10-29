@@ -16,7 +16,7 @@ defaults: &defaults
   show_staff_badge: true
   preview_sensitive_media: false
   noindex: false
-  theme: 'system'
+  theme: 'nzws'
   trends: true
   trends_as_landing_page: true
   trendable_by_default: false

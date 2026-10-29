@@ -3,6 +3,11 @@
 class ActivityPub::Activity::Create < ActivityPub::Activity
   include FormattingHelper
 
+  ENABLE_SPAM_FILTER = ENV.fetch('ENABLE_SPAM_FILTER', 'false') == 'true'
+  SPAM_FILTER_MINIMUM_FOLLOWERS = ENV.fetch('SPAM_FILTER_MINIMUM_FOLLOWERS', 0).to_i
+  SPAM_FILTER_MINIMUM_CREATE_DAYS = ENV.fetch('SPAM_FILTER_MINIMUM_CREATE_DAYS', 14).to_i
+  SPAM_FILTER_MINIMUM_MENTIONS = ENV.fetch('SPAM_FILTER_MINIMUM_MENTIONS', 5).to_i
+
   def perform
     @account.schedule_refresh_if_stale!
 
@@ -67,7 +72,14 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
       attach_tags(@status)
       attach_mentions(@status)
       attach_counts(@status)
+
+      if like_a_spam?
+        @status = nil
+        raise ActiveRecord::Rollback
+      end
     end
+
+    return if @status.nil?
 
     resolve_thread(@status)
     resolve_unresolved_mentions(@status)
@@ -473,5 +485,13 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
   rescue ActiveRecord::StaleObjectError
     poll.reload
     retry
+  end
+
+  def like_a_spam?
+    ENABLE_SPAM_FILTER &&
+      !@status.account.local? &&
+      @status.account.followers_count <= SPAM_FILTER_MINIMUM_FOLLOWERS &&
+      @status.account.created_at > SPAM_FILTER_MINIMUM_CREATE_DAYS.day.ago &&
+      @mentions.count >= SPAM_FILTER_MINIMUM_MENTIONS
   end
 end

@@ -413,6 +413,10 @@ class Status extends ImmutablePureComponent {
         <div className='status__prepend'>
           <div className='status__prepend__icon'><Icon id='retweet' icon={RepeatIcon} /></div>
           <FormattedMessage id='status.reblogged_by' defaultMessage='{name} boosted' values={{ name: <Link data-id={status.getIn(['account', 'id'])} data-hover-card-account={status.getIn(['account', 'id'])} to={`/@${status.getIn(['account', 'acct'])}`} className='status__display-name muted'><bdi><strong dangerouslySetInnerHTML={display_name_html} /></bdi></Link> }} />
+
+          <div className='status__prepend-relative_time'>
+            <RelativeTimestamp timestamp={status.get('created_at')} />
+          </div>
         </div>
       );
 
@@ -600,7 +604,7 @@ class Status extends ImmutablePureComponent {
             )}
 
             {!isQuotedPost &&
-              <StatusActionBar scrollKey={scrollKey} status={status} account={account}  {...other} />
+              <StatusActionBar scrollKey={scrollKey} status={status} account={account}  {...other} withCounters />
             }
           </div>
         </div>

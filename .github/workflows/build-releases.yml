@@ -14,14 +14,13 @@ jobs:
     with:
       file_to_build: Dockerfile
       push_to_images: |
-        tootsuite/mastodon
-        ghcr.io/mastodon/mastodon
+        ghcr.io/nzws/mastodon
       # Do not use cache when building releases, so apt update is always ran and the release always contain the latest packages
       cache: false
       # Only tag with latest when ran against the latest stable branch
       # This needs to be updated after each minor version release
       flavor: |
-        latest=false
+        latest=true
       tags: |
         type=pep440,pattern={{raw}}
         type=pep440,pattern=v{{major}}.{{minor}}
@@ -32,14 +31,13 @@ jobs:
     with:
       file_to_build: streaming/Dockerfile
       push_to_images: |
-        tootsuite/mastodon-streaming
-        ghcr.io/mastodon/mastodon-streaming
+        ghcr.io/nzws/mastodon-streaming
       # Do not use cache when building releases, so apt update is always ran and the release always contain the latest packages
       cache: false
       # Only tag with latest when ran against the latest stable branch
       # This needs to be updated after each minor version release
       flavor: |
-        latest=false
+        latest=true
       tags: |
         type=pep440,pattern={{raw}}
         type=pep440,pattern=v{{major}}.{{minor}}

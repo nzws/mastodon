@@ -10,11 +10,14 @@ import ImmutablePureComponent from 'react-immutable-pure-component';
 
 import { length } from 'stringz';
 
+import LockIcon from '@/material-icons/400-24px/lock.svg?react';
+import QuietTimeIcon from '@/material-icons/400-24px/quiet_time.svg?react';
 import { missingAltTextModal } from 'mastodon/initial_state';
 
 import AutosuggestInput from 'mastodon/components/autosuggest_input';
 import AutosuggestTextarea from 'mastodon/components/autosuggest_textarea';
 import { Button } from 'mastodon/components/button';
+import { Icon } from 'mastodon/components/icon';
 import { LoadingIndicator } from 'mastodon/components/loading_indicator';
 import EmojiPickerDropdown from '../containers/emoji_picker_dropdown_container';
 import PollButtonContainer from '../containers/poll_button_container';
@@ -31,6 +34,8 @@ import { PollForm } from "./poll_form";
 import { ReplyIndicator } from './reply_indicator';
 import { UploadForm } from './upload_form';
 import { Warning } from './warning';
+
+
 
 const allowedAroundShortCode = '><\u0085\u0020\u00a0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029\u0009\u000a\u000b\u000c\u000d';
 
@@ -71,6 +76,7 @@ class ComposeForm extends ImmutablePureComponent {
     missingAltText: PropTypes.bool,
     isInReply: PropTypes.bool,
     singleColumn: PropTypes.bool,
+    onChangeVisibility: PropTypes.func.isRequired,
     lang: PropTypes.string,
     maxChars: PropTypes.number,
     redirectOnSuccess: PropTypes.bool,
@@ -128,6 +134,18 @@ class ComposeForm extends ImmutablePureComponent {
       e.preventDefault();
     }
   };
+
+  handleSecondarySubmit = (privacy) => {
+    return (e) => {
+      this.props.onChangeVisibility(privacy);
+      this.handleSubmit(e);
+    };
+  };
+
+  secondaryVisibilities = [
+    { value: 'private', icon: 'lock', iconComponent: LockIcon, onClick: this.handleSecondarySubmit('private') },
+    { value: 'unlisted', icon: 'quiet_time', iconComponent: QuietTimeIcon, onClick: this.handleSecondarySubmit('unlisted') },
+  ];
 
   onSuggestionsClearRequested = () => {
     this.props.onClearSuggestions();
@@ -317,6 +335,23 @@ class ComposeForm extends ImmutablePureComponent {
                       (this.props.isInReply ? messages.reply : messages.publish)
                   )}
                 </Button>
+              </div>
+            </div>
+
+            <div className='compose-form__actions' style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: '8px',
+              }}>
+                {this.secondaryVisibilities.map(privacy => (
+                  <Button onClick={privacy.onClick} disabled={!this.canSubmit()} data-privacy={privacy.value} key={privacy.value}>
+                    <Icon id={privacy.icon} icon={privacy.iconComponent} />
+                  </Button>
+                ))}
               </div>
             </div>
           </div>

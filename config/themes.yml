@@ -1,3 +1,5 @@
 default: styles/application.scss
 contrast: styles/contrast.scss
 mastodon-light: styles/mastodon-light.scss
+nzws: styles/nzws-modern.scss
+nzws-legacy: styles/nzws.scss

@@ -1,0 +1,28 @@
+@use '../mastodon/functions' as *;
+
+// Dependent colors
+$white: #fff;
+
+$nzws-red: #f5584c;
+$nzws-grey-100: #dadaf3;
+
+$classic-base-color: #332624;
+$classic-primary-color: #f7b2ad;
+$classic-secondary-color: #d9e1e8;
+$classic-highlight-color: $nzws-red;
+
+@use '../mastodon/variables' with (
+  $ui-base-color: $classic-base-color,
+  $ui-primary-color: $classic-primary-color,
+  $ui-secondary-color: $classic-secondary-color,
+  $ui-highlight-color: $classic-highlight-color,
+  $ui-button-background-color: $nzws-red,
+  $ui-button-focus-background-color: lighten($nzws-red, 10%),
+  $ui-button-focus-outline-color: darken($nzws-red, 10%),
+  $ui-button-secondary-color: $nzws-grey-100,
+  $ui-button-secondary-border-color: $nzws-grey-100,
+  $ui-button-secondary-focus-color: $white,
+  $ui-button-tertiary-color: darken($nzws-red, 20%),
+  $ui-button-tertiary-border-color: darken($nzws-red, 20%),
+  $ui-button-tertiary-focus-background-color: lighten($nzws-red, 10%)
+);

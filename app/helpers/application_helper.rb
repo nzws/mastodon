@@ -243,6 +243,14 @@ module ApplicationHelper
     tag.input(type: :text, maxlength: 999, spellcheck: false, readonly: true, **options)
   end
 
+  def cloudflare_web_analytics_token
+    ENV.fetch('CLOUDFLARE_WEB_ANALYTICS_TOKEN', nil)
+  end
+
+  def cloudflare_web_analytics_token?
+    cloudflare_web_analytics_token.present?
+  end
+
   def recent_tag_usage(tag)
     people = tag.history.aggregate(2.days.ago.to_date..Time.zone.today).accounts
     I18n.t 'user_mailer.welcome.hashtags_recent_count', people: number_with_delimiter(people), count: people
