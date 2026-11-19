@@ -1191,7 +1191,9 @@
   .public-layout .column-back-button--slim .column-back-button {
     position: fixed;
     width: 285px;
-    margin-inline-start: calc(var(--tl-width) - 15px);
+
+    // 4.6+ places the navigation pane 16px further right than before
+    margin-inline-start: calc(var(--tl-width) + 1px);
     top: 0 !important;
     left: unset !important;
     right: unset !important;
@@ -2714,14 +2716,47 @@
   background-color: transparent;
 }
 
-// ...so paint the column itself instead (timeline entries draw their own
-// background, but e.g. the detailed status view relies on the column).
-#mastodon .column > .scrollable {
-  background-color: var(--color-bg-secondary);
+// ...so make sure every column's scroll area gets the translucent card
+// background from nzws/diff.scss. In 4.7 some views (detailed status) reset it
+// via .item-list, and search results nest the scroll area one level deeper.
+#mastodon .column > .scrollable,
+#mastodon .column > .explore__search-results > .scrollable {
+  background: rgba($ui-base-color, 0.8);
+  border-radius: var(--radius);
+}
+
+// On wide screens the column header floats above the navigation panel. Some
+// headers carry extra tabs (e.g. search results), so push the panel down
+// to keep them from overlapping the logo.
+@media (width >= 1191px) {
+  #mastodon
+    .columns-area__panels:has(.tabs-bar__wrapper .account__section-headline)
+    .navigation-panel {
+    padding-top: 100px;
+  }
+
+  // Line the floating header's icon up with the navigation panel icons
+  #mastodon .tabs-bar__wrapper .column-header__title {
+    padding-inline-start: 16px;
+  }
+
+  // Those tabs have side borders meant to line up with the column edges,
+  // which look like a broken box when floating over the background.
+  #mastodon .tabs-bar__wrapper .account__section-headline {
+    border-inline-width: 0;
+  }
 }
 
 // The column header gets a 10px top border in the page background color; the
 // global `border-color` rule above turns it into a translucent grey strip.
 #mastodon .tabs-bar__wrapper {
   border-top-color: transparent !important;
+}
+
+// The side panes are pushed down by 30px above, but since 4.6 they are also
+// 100% tall, so their bottom (e.g. the link footer) ends up off-screen.
+@media (width >= 1191px) {
+  #mastodon .columns-area__panels__pane__inner {
+    height: calc(100% - 30px);
+  }
 }
