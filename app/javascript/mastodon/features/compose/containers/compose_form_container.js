@@ -10,7 +10,7 @@ import {
   insertEmojiCompose,
   uploadCompose,
 } from 'mastodon/actions/compose';
-import { pasteLinkCompose, PRIVATE_QUOTE_MODAL_ID } from 'mastodon/actions/compose_typed';
+import { changeComposeVisibility, pasteLinkCompose, PRIVATE_QUOTE_MODAL_ID } from 'mastodon/actions/compose_typed';
 import { openModal } from 'mastodon/actions/modal';
 import { me } from 'mastodon/initial_state';
 
@@ -112,6 +112,10 @@ const mapDispatchToProps = (dispatch, props) => ({
 
   onPickEmoji (position, data, needsSpace) {
     dispatch(insertEmojiCompose(position, data, needsSpace));
+  },
+
+  onChangeVisibility(value) {
+    dispatch(changeComposeVisibility(value));
   },
 
 });

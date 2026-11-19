@@ -1766,10 +1766,11 @@ body > [data-popover-placement] {
     text-decoration: none;
   }
 
-  > span {
+  > span:not(.notification__relative_time) {
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-right: 5px;
   }
 }
 
@@ -2621,10 +2622,15 @@ a.account__display-name {
     color: var(--color-text-favourite-highlight);
   }
 
-  > span {
-    display: inline;
+  > span > span:not(.notification__relative_time) {
+    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-right: 5px;
+  }
+
+  > span {
+    width: 100%;
   }
 }
 
@@ -3052,7 +3058,9 @@ a.account__display-name {
       flex: 0 1 auto;
       display: flex;
       flex-direction: column;
-      contain: inline-size layout paint style;
+
+      // @nzws: ねじわカスタムでヘッダーがバグるので無効化
+      // contain: inline-size layout paint style;
       container: column / inline-size;
       color: var(--color-text-primary);
       background-color: var(--color-bg-primary);
@@ -3364,8 +3372,8 @@ a.account__display-name {
   }
 
   .columns-area__panels {
-    min-height: 100vh;
-    min-height: 100dvh;
+    // min-height: 100vh;
+    // min-height: 100dvh;
     gap: 0;
     padding-inline: 0;
   }

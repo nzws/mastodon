@@ -28,6 +28,10 @@ module Mastodon
       version_configuration[:metadata]
     end
 
+    def suffix
+      '+nzws'
+    end
+
     def to_a
       [major, minor, patch].compact
     end

@@ -3,9 +3,6 @@ name: Historical data migration test
 on:
   merge_group:
   push:
-    branches:
-      - 'main'
-      - 'stable-*'
     paths:
       - 'Gemfile*'
       - '.ruby-version'

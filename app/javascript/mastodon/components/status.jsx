@@ -28,6 +28,7 @@ import { injectIntl } from './intl';
 import { StatusHeader } from './status/header'
 import { LinkedDisplayName } from './display_name';
 import { getHashtagBarForStatus } from './hashtag_bar';
+import { RelativeTimestamp } from './relative_timestamp';
 import StatusActionBar from './status_action_bar';
 import StatusContent from './status_content';
 import { StatusThreadLabel } from './status_thread_label';
@@ -439,6 +440,10 @@ class Status extends ImmutablePureComponent {
         <div className='status__prepend'>
           <div className='status__prepend__icon'><Icon id='retweet' icon={RepeatIcon} /></div>
           <FormattedMessage id='status.reblogged_by' defaultMessage='{name} boosted' values={{ name }} tagName='span' />
+
+          <div className='status__prepend-relative_time'>
+            <RelativeTimestamp timestamp={status.get('created_at')} />
+          </div>
         </div>
       );
 
@@ -635,7 +640,7 @@ class Status extends ImmutablePureComponent {
             )}
 
             {(showActions && !isQuotedPost) &&
-              <StatusActionBar scrollKey={scrollKey} status={status} account={account}  {...other} />
+              <StatusActionBar scrollKey={scrollKey} status={status} account={account}  {...other} withCounters />
             }
           </div>
         </div>
